@@ -1,0 +1,49 @@
+# Study configuration. Change values here, not in code.
+
+study_states: [AZ, CA, OK, TX, GA]   # mix of wildfire, tribal, heat/drought, Southeast
+pilot_state: AZ
+
+overture:
+  release: "2025-09-24.0"            # pin the release for reproducibility
+  # Public Overture release on S3 (anonymous access)
+  buildings_path: "s3://overturemaps-us-west-2/release/{release}/theme=buildings/type=building/*"
+  places_path: "s3://overturemaps-us-west-2/release/{release}/theme=places/type=place/*"
+  s3_region: us-west-2
+
+reference:
+  # FEMA/ORNL USA Structures, GeoParquet on Source Cooperative.
+  # Check the exact file layout on source.coop/wherobots/usa-structures before running.
+  usa_structures_path: "s3://us-west-2.opendata.source.coop/wherobots/usa-structures/geoparquet/*.parquet"
+
+acs:
+  year: 2023                          # ACS 5-year vintage
+  # Housing units, population, units-in-structure (B25024), vacancy, year built
+  variables:
+    total_housing_units: B25001_001E
+    total_population: B01003_001E
+    units_1_detached: B25024_002E
+    units_1_attached: B25024_003E
+    units_2: B25024_004E
+    units_3_4: B25024_005E
+    units_5_9: B25024_006E
+    units_10_19: B25024_007E
+    units_20_49: B25024_008E
+    units_50_plus: B25024_009E
+    mobile_home: B25024_010E
+    vacant_units: B25002_003E
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  figures: outputs/figures
+
+crs:
+  equal_area: "EPSG:5070"             # CONUS Albers, for areas and densities
+
+validation:
+  spatial_block_km: 50
+  n_folds: 5
+  random_seed: 42
+
+conformal:
+  alpha: 0.10                         # 90% prediction intervals
