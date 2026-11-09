@@ -1,72 +1,69 @@
-# Invisible Exposure: Open-Map Equity
+# Invisible Exposure
 
-**Uncertainty-aware estimation of open-map coverage gaps and their consequences for climate-risk assessment in vulnerable U.S. communities.**
+**Reference-free, conformal auditing of open-map completeness and the climate-hazard exposure it hides.**
 
-Open maps such as Overture Maps are incomplete in uneven ways. Raw sparsity cannot tell genuinely empty land apart from places nobody has mapped. This project estimates *expected* map content per census tract from neutral structural variables, flags tracts where the observed map falls clearly below an uncertainty-aware expectation, translates those gaps into hidden climate-hazard exposure, and audits whether the gaps concentrate in socially and climate-vulnerable communities.
+For 9,794 census tracts in five U.S. climate-hazard regions, this repository predicts how many
+buildings and points of interest (POIs) Overture Maps *should* contain from neutral structural facts
+(housing stock, population, land area, jobs). It gives every tract a 90% conformal range, flags tracts
+where the map falls below that range, and converts the shortfall into hidden heat, wildfire and
+drought exposure. It then audits, under a frozen pre-registration, who lives in the flagged tracts and
+whether three Overture snapshots (2023 → 2026) closed the gaps.
 
-## Research questions
+Design rule: vulnerability, rurality, tribal and hazard variables **never enter the model**. They are
+joined only in the audit (`src/coverage_risk/model.py::assert_no_leakage`).
 
-1. Can we estimate where open maps are incomplete, with honest uncertainty, without a perfect reference map?
-2. How much wildfire, heat and drought exposure is missing from the map, and does it fall disproportionately on socially vulnerable, rural and tribal communities?
-3. As Overture improves across releases, do vulnerable communities catch up?
-4. Does dependence on a single data source predict where gaps are?
-
-Hypotheses are pre-registered in [`docs/preregistration.md`](docs/preregistration.md).
-
-## Method in brief
-
-| Step | What | Where |
-|---|---|---|
-| 1 | Aggregate Overture buildings/POIs and source metadata to census tracts | `src/coverage_risk/aggregate.py` |
-| 2 | Join ACS structural covariates (area, housing units, units-in-structure, population) | `src/coverage_risk/features.py` |
-| 3 | Expectation model (structural variables only) + conformal intervals | `src/coverage_risk/model.py` |
-| 4 | Random vs. spatial-block vs. leave-one-region-out validation | `src/coverage_risk/validation.py` |
-| 5 | Provenance features (source count, entropy, single-source dependence) | `src/coverage_risk/provenance.py` |
-| 6 | External validation against FEMA/ORNL USA Structures, Census CBP | `scripts/` |
-| 7 | Hidden exposure + pre-registered equity audit | `src/coverage_risk/audit.py` |
-
-**Design rule:** rurality, tribal status, SVI, CVI and hazard variables are **never** inputs to the expectation model. They are used only in the audit, so systematic disparities are not learned as "normal".
-
-## Repository layout
-
-```
-config/       study settings (states, Overture release, paths)
-data/raw/     downloaded inputs (git-ignored)
-data/processed/  tract-level tables (git-ignored)
-docs/         pre-registration, data sources, notes
-notebooks/    exploration
-outputs/      figures and tables
-scripts/      runnable pipeline steps
-src/coverage_risk/  reusable package code
-```
-
-## Setup
+## Reproduce
 
 ```bash
-git clone https://github.com/<your-username>/invisible-exposure-open-map-equity.git
-cd invisible-exposure-open-map-equity
-```
-
-Works on Linux, macOS, or Windows (WSL2 recommended on Windows). 16 GB RAM or more is recommended.
-
-```bash
-conda env create -f environment.yml
-conda activate invisible-exposure
+python -m venv .venv && . .venv/bin/activate
 pip install -e .
+# LaTeX (texlive + latexmk) is needed only to build paper/main.pdf
+# DuckDB needs the httpfs + spatial extensions (auto-installed; see src/coverage_risk/db.py)
+bash scripts/run_all.sh          # downloads public data, runs Phases 1-8 (~1.5 h on 4 cores)
 ```
 
-## Quick start: feasibility check (one state)
+| Step | Script | Output |
+|---|---|---|
+| Data | `scripts/fetch_challenge.sh`, `00b_usa_structures_counts.py`, `00c_poi_reference.py` | `data/raw/`, reference tables |
+| 1 | `01_count_overture.py --release r2026a / r2026b / r2023` | per-tract counts + provenance |
+| 2 | `02_build_tract_table.py` | `tracts_all.parquet`, `strata_audit.parquet` (kept apart) |
+| 3 | `03_expectation_model.py` | expected count, 90% range, flag, shortfall |
+| 4 | `04_validation.py` | CV schemes, flag skill vs references, deletion test |
+| gate | `docs/preregistration.md` | completed and frozen 2026-11-09 before Phases 5–7 (original template: `docs/preregistration_original_2026-10-16.md`) |
+| 5 | `05_provenance.py` | H4 |
+| 6 | `06_audit.py`, `06b_fdr.py`, `06c_robustness.py`, `06d_original_hypotheses.py` | H1, H2, H5, BH-FDR, robustness, original-template tests |
+| 7 | `07_catchup.py` | H3 |
+| expl. | `09_exploratory.py` | E1 release regression, E2 absorption, E3 H3 sensitivity (not pre-registered) |
+| 8 | `08_figures.py`, `10_paper_numbers.py`, `paper/` | figures, generated numbers/tables, manuscript |
 
-```bash
-python scripts/01_feasibility_check.py --state AZ
+All settings are in `config/config.yaml`. Data versions and licences are in `docs/data_sources.md`.
+`data/` is not tracked. Result tables, figures and the manuscript PDF are committed, and every number
+in the paper regenerates from the scripts above (`paper/numbers.tex` is generated, not typed).
+
+## Headline results (Overture 2026-08 unless stated)
+
+* Conformal 90% ranges reach 90.0% held-out coverage for buildings and POIs under spatial-block
+  cross-fitting, but 84.6% under leave-one-region-out; within-region (Mondrian) calibration restores per-region coverage
+  when some local calibration data exist.
+* Only 1.9% of tracts fall below 80% of USA Structures. Building flags have 5.1x lift over chance,
+  and 50% feature loss is detected in 96% of tracts.
+* 2023 to 2026: rural and tribal building gaps closed faster (rural gap rate -9.9 pp vs urban).
+* Release `2026-09-23.0` and later dropped about 179,000 footprints in 186 tracts (Bexar County, TX).
+  The reference-free model flags 82% of them.
+* Hidden wildfire exposure is 4.8x higher (rural vs urban), and drought 2.9x.
+* Tract-level flags miss systematic rural and tribal gaps (absorption plus resolution); see paper Sec. 5.6.
+
+## Layout
+
+```
+config/config.yaml       settings (regions, releases, model, CV, conformal)
+src/coverage_risk/       db.py, aggregate.py, features.py, provenance.py, model.py, validation.py, audit.py
+scripts/                 one numbered script per phase
+docs/                    preregistration.md, data_sources.md
+outputs/tables/          result tables (CSV/JSON) used in the paper
+paper/                   manuscript (LaTeX) and figures
 ```
 
-This counts Overture buildings, source mix and USA Structures buildings per tract for one state, joins ACS housing units, and writes `data/processed/feasibility_<STATE>.parquet` plus a comparison plot in `outputs/figures/`.
+## Licence
 
-## Data
-
-See [`docs/data_sources.md`](docs/data_sources.md) for every source, its license and the exact release used. Pin the Overture release in `config/config.yaml` so results are reproducible.
-
-## License
-
-Code: MIT (see `LICENSE`). Data retain their original licenses; Overture themes carry different licenses (some ODbL), so check attribution requirements before redistributing derived data.
+Code: MIT. Derived tables inherit the licences of their inputs (see `docs/data_sources.md`).

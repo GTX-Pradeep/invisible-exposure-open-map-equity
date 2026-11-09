@@ -30,3 +30,13 @@ venv/
 Thumbs.db
 .vscode/
 .idea/
+
+# Generated / heavy
+outputs/figures/fig1_maps.pdf
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.fls
+paper/*.fdb_latexmk

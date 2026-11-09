@@ -1,0 +1,29 @@
+{
+  "heat": {
+    "tracts_top_tercile": 3453,
+    "flagged_in_top": 200,
+    "missing_structures_lower": 20458.278962792512,
+    "missing_structures_median": 73406.19627335834,
+    "missing_pois_lower": 2281.5295403618247
+  },
+  "wildfire": {
+    "tracts_top_tercile": 3265,
+    "flagged_in_top": 140,
+    "missing_structures_lower": 18100.57356673702,
+    "missing_structures_median": 90884.9236339202,
+    "missing_pois_lower": 1748.4351076365404
+  },
+  "drought": {
+    "tracts_top_tercile": 3264,
+    "flagged_in_top": 129,
+    "missing_structures_lower": 13533.55032927551,
+    "missing_structures_median": 68377.97190935051,
+    "missing_pois_lower": 2689.2513305342068
+  },
+  "all": {
+    "flagged_bldg": 510,
+    "missing_structures_lower": 44945.268649426725,
+    "flagged_poi": 529,
+    "missing_pois_lower": 6708.874032090331
+  }
+}

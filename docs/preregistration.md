@@ -67,4 +67,22 @@ applicable), q = 0.05. H4 is reported with its CI and is not in the FDR family.
 
 ## Deviations
 
-*(none at freeze)*
+Recorded after the freeze, with date and reason. None changes a pre-registered estimand, threshold or test.
+
+1. **2026-11-09: bootstrap implementation.** The county-cluster bootstrap was re-implemented with
+   multinomial cluster weights on per-county sums, which is algebraically the same resampling scheme
+   but much faster. Reported CIs come from this implementation. Point estimates are unchanged.
+2. **2026-11-09: original template tested as worded.** The original template (commit `807831b`,
+   2026-10-16; preserved in `docs/preregistration_original_2026-10-16.md`) is tested exactly as
+   worded (Mann–Whitney U, BH within that family) in `scripts/06d_original_hypotheses.py`, with its
+   blanks filled as in this document (rural = participant `ur_class`; tribal = any overlap).
+3. **2026-11-09: exploratory analyses (not pre-registered).** These are labelled *exploratory*
+   wherever reported:
+   * E1: a release regression found while running H3 (Overture `2026-09-23.0` and later dropped
+     Microsoft footprints in Bexar County, TX), and whether the reference-free model detects it.
+   * E2: normalization/absorption, comparing the map-trained expectation with a reference-anchored
+     expectation.
+   * E3: H3 re-estimated with the `2026-08-19.0` endpoint, and excluding Bexar County, because of E1.
+4. **2026-11-09: H5 inference.** For one contrast (heat, tribal vs. non-tribal) some bootstrap
+   replicates have zero hidden exposure in the tribal group. Its bootstrap p-value is computed on
+   the replicates with a positive ratio. The 95% CI excludes 1 either way.

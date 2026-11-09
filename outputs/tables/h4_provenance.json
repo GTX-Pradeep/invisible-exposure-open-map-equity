@@ -1,0 +1,62 @@
+[
+  {
+    "layer": "bldg",
+    "n": 9793,
+    "prevalence": 0.01858470335954253,
+    "pr_auc[structural+deficit]": 0.16354247155401683,
+    "roc_auc[structural+deficit]": 0.8706907492673802,
+    "pr_auc[+provenance]": 0.15370172289735143,
+    "roc_auc[+provenance]": 0.8609525943830386,
+    "d_pr_auc": -0.009840748656665399,
+    "d_pr_auc_ci": [
+      -0.03499434147583483,
+      0.015804066573882933
+    ],
+    "d_roc_auc": -0.009738154884341599,
+    "d_roc_auc_ci": [
+      -0.023997649683637826,
+      0.0037896443058291294
+    ],
+    "provenance_gain_share": 0.13786011612721555,
+    "top_features": {
+      "bldg_deficit_z": 2787.0,
+      "hu_density": 1226.0,
+      "households": 1068.0,
+      "bsh_msft": 900.0,
+      "bldg_y_log": 899.0,
+      "sh_u1_det": 721.0,
+      "vacant_share": 680.0,
+      "sh_yb2010": 644.0
+    }
+  },
+  {
+    "layer": "poi",
+    "n": 9309,
+    "prevalence": 0.23955312063594372,
+    "pr_auc[structural+deficit]": 0.7091467536771214,
+    "roc_auc[structural+deficit]": 0.8863762394551686,
+    "pr_auc[+provenance]": 0.715983355903272,
+    "roc_auc[+provenance]": 0.8903265326548492,
+    "d_pr_auc": 0.006836602226150568,
+    "d_pr_auc_ci": [
+      -0.00043067777798151116,
+      0.013807765633386192
+    ],
+    "d_roc_auc": 0.0039502931996805435,
+    "d_roc_auc_ci": [
+      0.001234037620161621,
+      0.00668852938954556
+    ],
+    "provenance_gain_share": 0.10014758015122094,
+    "top_features": {
+      "poi_y_log": 18822.0,
+      "land_km2": 7632.0,
+      "poi_deficit_z": 6463.0,
+      "job_density": 4833.0,
+      "log_jobs_retail_food": 3086.0,
+      "jsh_retail": 2552.0,
+      "psh_fsq": 2547.0,
+      "p_conf50_share": 2154.0
+    }
+  }
+]

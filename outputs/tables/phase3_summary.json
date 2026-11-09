@@ -1,0 +1,16 @@
+{
+  "bldg": {
+    "coverage": 0.8997345313457219,
+    "flag_rate": 0.05207269756994078,
+    "n_flag": 510,
+    "shortfall_total": 192011.60443099428,
+    "shortfall_lower_total": 44945.268649426725
+  },
+  "poi": {
+    "coverage": 0.9001429446599959,
+    "flag_rate": 0.054012660812742495,
+    "n_flag": 529,
+    "shortfall_total": 34462.5905233317,
+    "shortfall_lower_total": 6708.874032090331
+  }
+}
