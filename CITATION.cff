@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this code or its results, please cite it as below."
+title: "Invisible Exposure: Reference-Free Conformal Auditing of Open-Map Completeness and Hidden Climate-Hazard Exposure"
+type: software
+authors:
+  - name: "Chinthan"
+  - name: "Pradeep"
+repository-code: "https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity"
+license: MIT
+version: "1.0.0"
+date-released: "2026-11-09"
+keywords:
+  - open map data
+  - Overture Maps
+  - conformal prediction
+  - data completeness
+  - environmental justice
+  - climate risk

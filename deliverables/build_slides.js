@@ -2,7 +2,9 @@
 // usage: node deliverables/build_slides.js <docdata.json>
 const fs = require("fs"), path = require("path");
 const pptxgen = require("pptxgenjs");
-const { applyTheme } = require("/root/.claude/skills/synced/7ef6eba7-fcba-400b-9290-39e248729aee_532e3f45-ffe5-4df0-90a0-60861357a899/pptx/scripts/apply_theme.js");
+// Optional: a helper that writes THEME colours into the .pptx theme part (set APPLY_THEME_JS to its path).
+let applyTheme = async () => {};
+try { if (process.env.APPLY_THEME_JS) ({ applyTheme } = require(process.env.APPLY_THEME_JS)); } catch (e) { console.warn("theme helper not found; using default theme colours"); }
 
 const D = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
 const M = D.macros; const m = (k) => String(M[k]).replace(/\\%/g, "%");
