@@ -155,6 +155,7 @@ def rtxt():
     parts.append("Details are in Appendix Table~\\ref{tab:robust}.")
     return " ".join(parts)
 M["RobustText"] = rtxt()
+M["RobustTextShort"] = M["RobustText"].replace("Details are in Appendix Table~\\ref{tab:robust}.", "Full results are in \\texttt{outputs/tables/robustness.csv}.")
 
 with open(f"{OUT}/numbers.tex", "w") as fh:
     for k, v in M.items():

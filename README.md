@@ -62,6 +62,8 @@ scripts/                 one numbered script per phase
 docs/                    preregistration.md, data_sources.md
 outputs/tables/          result tables (CSV/JSON) used in the paper
 paper/                   manuscript (LaTeX) and figures
+notebooks/               course notebook (Invisible_Exposure.ipynb)
+deliverables/            course deliverables: documentation, IEEE report, one-pager, slides, video script, dataset
 ```
 
 ## Licence
