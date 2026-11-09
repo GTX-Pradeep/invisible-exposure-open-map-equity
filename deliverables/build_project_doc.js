@@ -98,8 +98,8 @@ C.push(new Paragraph({ spacing: { before: 2400, after: 200 }, alignment: Alignme
 C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 400 },
   children: [new TextRun({ text: "Reference-free, conformal auditing of open-map completeness and the climate-hazard exposure it hides", size: 30, font: FONT })] }));
 C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "Complete project documentation", size: 26, bold: true })] }));
-C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "ADA course project  |  Team: [team name]  |  November 2026", size: 22 })] }));
-C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "Team members: Pradeep, [others]", size: 22 })] }));
+C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "ADA course project  |  November 2026", size: 22 })] }));
+C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "Pradeep", size: 22 })] }));
 C.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [link("github.com/GTX-Pradeep/invisible-exposure-open-map-equity", "https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity")] }));
 C.push(PB());
 C.push(new Paragraph({ children: [new TextRun({ text: "Contents", bold: true, size: 32, color: BLUE })], spacing: { after: 200 } }));
@@ -331,7 +331,7 @@ C.push(table(["Path", "Contents"], [
   ["`outputs/figures/`", "All figures (PNG/PDF)"],
   ["`paper/`", "Manuscript (LaTeX + PDF); `numbers.tex` is generated"],
   ["`notebooks/`", "Course notebook (`.ipynb`) walking through the pipeline and results"],
-  ["`deliverables/`", "This document, IEEE report, one-pager, slides, video script, dataset links"],
+  ["`deliverables/`", "This document, IEEE report, one-pager, slides, dataset links"],
 ], [3400, 5960]));
 C.push(H2("9.1 How to reproduce"));
 ["`python -m venv .venv && . .venv/bin/activate && pip install -e .`",
@@ -354,9 +354,9 @@ C.push(table(["Deliverable", "Status", "Location"], [
   ["2. Code (.ipynb)", "Ready", "`notebooks/Invisible_Exposure.ipynb`"],
   ["3. Dataset (link/folder)", "Ready", "`deliverables/dataset/` (links + processed tract tables)"],
   ["4. Project PPT", "Draft ready; restyle to the template when it arrives", "`deliverables/Invisible_Exposure_Slides.pptx`"],
-  ["5. Video (3-5 min)", "Script ready; team records", "`deliverables/Video_Script.md`"],
+  ["5. Video (3-5 min)", "To be recorded and uploaded", "Google Drive folder"],
   ["6. IEEE-format report", "Ready", "`deliverables/IEEE_Report.pdf` (+ LaTeX source)"],
-  ["Google Drive folder", "Team uploads; give TAs and Bhaskarjyoti Das sir view access", "Deadline 16/11/2026 EOD"],
+  ["Google Drive folder", "Upload; give TAs and Bhaskarjyoti Das sir view access", "Deadline 16/11/2026 EOD"],
 ], [2600, 3400, 3360]));
 
 // ---- 12 glossary
@@ -390,7 +390,7 @@ C.push(H1("13. Key references"));
 
 // ======================================================================= document
 const doc = new Document({
-  creator: "Invisible Exposure team",
+  creator: "Pradeep",
   features: { updateFields: true },
   title: "Invisible Exposure: complete project documentation",
   styles: {
