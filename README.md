@@ -91,7 +91,7 @@ USA Structures and Overture's machine-learned footprints are both imagery-derive
 
 Use GitHub's **Cite this repository** button ([`CITATION.cff`](CITATION.cff)), or:
 
-> Chinthan and Pradeep (2026). *Invisible Exposure: Reference-Free Conformal Auditing of Open-Map Completeness and Hidden Climate-Hazard Exposure.* https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity
+> Pradeep (2026). *Invisible Exposure: Reference-Free Conformal Auditing of Open-Map Completeness and Hidden Climate-Hazard Exposure.* https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity
 
 ## License
 

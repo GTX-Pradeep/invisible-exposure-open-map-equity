@@ -54,7 +54,7 @@ pres.addSection({ title: "Introduction" });
 let s = pres.addSlide({ masterName: "TITLE_DARK", sectionTitle: "Introduction" });
 s.addText("Invisible Exposure", { placeholder: "title" });
 s.addText([{ text: "Where open maps miss buildings, who lives there, and whether it is getting better", options: { breakLine: true } },
-  { text: "Team [name]  |  Chinthan, Pradeep, [members]  |  ADA course project, November 2026", options: { fontSize: 14 } }], { placeholder: "body" });
+  { text: "Team [name]  |  Pradeep, [members]  |  ADA course project, November 2026", options: { fontSize: 14 } }], { placeholder: "body" });
 s.addNotes("Introduce the team and the one-line idea: climate-risk tools count buildings from open maps, so missing buildings mean missing risk.");
 
 // 2 problem

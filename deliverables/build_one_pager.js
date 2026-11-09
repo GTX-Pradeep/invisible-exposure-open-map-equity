@@ -36,7 +36,7 @@ const doc = new Document({ numbering: { config: [{ reference: "b", levels: [{ le
   sections: [{ properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 500, bottom: 400, left: 360, right: 360 } } }, children: [
     new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "Invisible Exposure", bold: true, size: 36, color: BLUE, font: F })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 60 }, children: [new TextRun({ text: "Reference-free conformal auditing of open-map completeness and hidden climate-hazard exposure", size: 20, font: F })] }),
-    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 100 }, border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: BLUE, space: 4 } }, children: [new TextRun({ text: "Team [name]  |  Chinthan, Pradeep, [members]  |  ADA course project, Nov 2026", size: 17, font: F })] }),
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 100 }, border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: BLUE, space: 4 } }, children: [new TextRun({ text: "Team [name]  |  Pradeep, [members]  |  ADA course project, Nov 2026", size: 17, font: F })] }),
     new Table({ width: { size: W, type: WidthType.DXA }, columnWidths: [W / 2, W / 2], rows: [new TableRow({ children: [col(W / 2, left), col(W / 2, right)] })] }),
   ] }] });
 Packer.toBuffer(doc).then((b) => { fs.writeFileSync(path.join(__dirname, "One_Pager.docx"), b); console.log("ok"); });
