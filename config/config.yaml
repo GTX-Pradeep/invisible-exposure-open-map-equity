@@ -1,49 +1,35 @@
-# Study configuration. Change values here, not in code.
+# Invisible Exposure — all settings live here.
+project: invisible-exposure
+data_root: data
+regions: [maricopa-az, northern-ca, eastern-ok, south-central-tx, eastern-wa]
+state_fips: ["04", "06", "35", "40", "48", "53"]
 
-study_states: [AZ, CA, OK, TX, GA]   # mix of wildfire, tribal, heat/drought, Southeast
-pilot_state: AZ
+challenge:
+  base_https: https://data.source.coop/humane-intelligence/bias-bounty-mapping-equity-challenge
+  local: data/raw/challenge
 
 overture:
-  release: "2025-09-24.0"            # pin the release for reproducibility
-  # Public Overture release on S3 (anonymous access)
-  buildings_path: "s3://overturemaps-us-west-2/release/{release}/theme=buildings/type=building/*"
-  places_path: "s3://overturemaps-us-west-2/release/{release}/theme=places/type=place/*"
-  s3_region: us-west-2
+  # three snapshots for the catch-up analysis (H3)
+  releases:
+    r2023: {label: "2023-07-26.0", source: cholmes, path: "https://data.source.coop/cholmes/overture/geoparquet-country-quad-hive/country_iso=US/*.parquet"}
+    r2026a: {label: "2026-08-19.0", source: challenge}
+    r2026b: {label: "2026-10-21.0", source: s3, path: "s3://overturemaps-us-west-2/release/2026-10-21.0/theme=buildings/type=building/*"}
+  places_r2026b: "s3://overturemaps-us-west-2/release/2026-10-21.0/theme=places/type=place/*"
+  primary_release: r2026a
 
 reference:
-  # FEMA/ORNL USA Structures, GeoParquet on Source Cooperative.
-  # Check the exact file layout on source.coop/wherobots/usa-structures before running.
-  usa_structures_path: "s3://us-west-2.opendata.source.coop/wherobots/usa-structures/geoparquet/*.parquet"
+  usa_structures: "https://data.source.coop/wherobots/usa-structures/geoparquet/*.parquet"
 
 acs:
-  year: 2023                          # ACS 5-year vintage
-  # Housing units, population, units-in-structure (B25024), vacancy, year built
-  variables:
-    total_housing_units: B25001_001E
-    total_population: B01003_001E
-    units_1_detached: B25024_002E
-    units_1_attached: B25024_003E
-    units_2: B25024_004E
-    units_3_4: B25024_005E
-    units_5_9: B25024_006E
-    units_10_19: B25024_007E
-    units_20_49: B25024_008E
-    units_50_plus: B25024_009E
-    mobile_home: B25024_010E
-    vacant_units: B25002_003E
+  year: 2024
+  base: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData
+  tables: [b25001, b25002, b25024, b01003, b25034, b11001, b25003]
 
-paths:
-  raw: data/raw
-  processed: data/processed
-  figures: outputs/figures
-
-crs:
-  equal_area: "EPSG:5070"             # CONUS Albers, for areas and densities
-
-validation:
+model:
+  alpha: 0.10           # 90% conformal ranges
+  seed: 20261109
   spatial_block_km: 50
-  n_folds: 5
-  random_seed: 42
+  lgbm: {n_estimators: 600, learning_rate: 0.03, num_leaves: 31, min_child_samples: 20, subsample: 0.8, subsample_freq: 1, colsample_bytree: 0.8}
 
-conformal:
-  alpha: 0.10                         # 90% prediction intervals
+audit:
+  fdr_q: 0.05

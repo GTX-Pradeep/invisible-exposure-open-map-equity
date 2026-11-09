@@ -1,0 +1,7 @@
+{
+  "bldg_spearman_deficit_vs_refratio": 0.19783351927964757,
+  "poi_spearman_deficit_vs_refratio": 0.31136965995973104,
+  "county_n": 324,
+  "county_spearman_poi_vs_cbp": 0.8499207699936213,
+  "county_spearman_expected_vs_cbp": 0.8366549748451395
+}

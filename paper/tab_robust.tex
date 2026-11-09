@@ -1,0 +1,74 @@
+{\footnotesize
+\begin{longtable}{lllrrrrr}
+\caption{Robustness of building and POI flag contrasts (risk difference, cluster-bootstrap 95\% CI).}\label{tab:robust}\\
+\toprule
+Variant & Layer & Group & Flags \% & RD & CI low & CI high & aOR \\
+\midrule
+\endhead
+primary & bldg & svi & 5.2 & +0.009 & -0.009 & +0.024 & 1.19 \\
+primary & bldg & cvi & 5.2 & +0.018 & -0.005 & +0.036 & 1.25 \\
+primary & bldg & rural & 5.2 & -0.002 & -0.022 & +0.018 & 1.06 \\
+primary & bldg & tribal & 5.2 & -0.011 & -0.034 & +0.012 & 1.12 \\
+primary, excluding HU$<$50 & bldg & svi & 5.1 & +0.010 & -0.009 & +0.025 & 1.21 \\
+primary, excluding HU$<$50 & bldg & cvi & 5.1 & +0.018 & -0.005 & +0.035 & 1.26 \\
+primary, excluding HU$<$50 & bldg & rural & 5.1 & -0.003 & -0.023 & +0.016 & 1.04 \\
+primary, excluding HU$<$50 & bldg & tribal & 5.1 & -0.009 & -0.033 & +0.014 & 1.34 \\
+no housing-type covariates & bldg & svi & 6.5 & +0.059 & +0.025 & +0.086 & 2.91 \\
+no housing-type covariates & bldg & cvi & 6.5 & +0.038 & -0.001 & +0.074 & 1.65 \\
+no housing-type covariates & bldg & rural & 6.5 & -0.021 & -0.045 & +0.007 & 0.73 \\
+no housing-type covariates & bldg & tribal & 6.5 & -0.015 & -0.048 & +0.018 & 1.64 \\
+negative-binomial GLM & bldg & svi & 5.1 & -0.010 & -0.025 & +0.005 & 0.84 \\
+negative-binomial GLM & bldg & cvi & 5.1 & +0.019 & -0.007 & +0.041 & 1.47 \\
+negative-binomial GLM & bldg & rural & 5.1 & +0.018 & -0.009 & +0.042 & 1.61 \\
+negative-binomial GLM & bldg & tribal & 5.1 & -0.001 & -0.028 & +0.030 & 4.15 \\
+80\% range & bldg & svi & 10.3 & +0.009 & -0.014 & +0.030 & 1.10 \\
+80\% range & bldg & cvi & 10.3 & +0.027 & -0.004 & +0.054 & 1.21 \\
+80\% range & bldg & rural & 10.3 & +0.002 & -0.027 & +0.032 & 1.09 \\
+80\% range & bldg & tribal & 10.3 & -0.014 & -0.061 & +0.025 & 1.19 \\
+95\% range & bldg & svi & 2.8 & +0.003 & -0.008 & +0.013 & 1.06 \\
+95\% range & bldg & cvi & 2.8 & +0.008 & -0.012 & +0.024 & 1.07 \\
+95\% range & bldg & rural & 2.8 & -0.005 & -0.019 & +0.009 & 0.94 \\
+95\% range & bldg & tribal & 2.8 & -0.012 & -0.025 & +0.001 & 0.85 \\
+Mondrian (region) calibration & bldg & svi & 5.2 & +0.006 & -0.012 & +0.020 & 1.12 \\
+Mondrian (region) calibration & bldg & cvi & 5.2 & +0.014 & -0.008 & +0.031 & 1.19 \\
+Mondrian (region) calibration & bldg & rural & 5.2 & -0.002 & -0.022 & +0.017 & 0.98 \\
+Mondrian (region) calibration & bldg & tribal & 5.2 & +0.007 & -0.025 & +0.035 & 1.26 \\
+primary & poi & svi & 5.4 & -0.051 & -0.072 & -0.034 & 0.41 \\
+primary & poi & cvi & 5.4 & -0.035 & -0.051 & -0.018 & 0.58 \\
+primary & poi & rural & 5.4 & -0.021 & -0.035 & -0.009 & 0.56 \\
+primary & poi & tribal & 5.4 & -0.005 & -0.026 & +0.012 & 0.84 \\
+primary, excluding HU$<$50 & poi & svi & 5.4 & -0.051 & -0.072 & -0.035 & 0.41 \\
+primary, excluding HU$<$50 & poi & cvi & 5.4 & -0.034 & -0.051 & -0.018 & 0.57 \\
+primary, excluding HU$<$50 & poi & rural & 5.4 & -0.023 & -0.036 & -0.011 & 0.53 \\
+primary, excluding HU$<$50 & poi & tribal & 5.4 & -0.005 & -0.025 & +0.013 & 0.83 \\
+no housing-type covariates & poi & svi & 5.6 & -0.060 & -0.082 & -0.042 & 0.36 \\
+no housing-type covariates & poi & cvi & 5.6 & -0.042 & -0.060 & -0.021 & 0.51 \\
+no housing-type covariates & poi & rural & 5.6 & -0.022 & -0.034 & -0.011 & 0.57 \\
+no housing-type covariates & poi & tribal & 5.6 & -0.007 & -0.029 & +0.009 & 0.86 \\
+negative-binomial GLM & poi & svi & 5.0 & -0.049 & -0.061 & -0.036 & 0.42 \\
+negative-binomial GLM & poi & cvi & 5.0 & -0.032 & -0.041 & -0.019 & 0.56 \\
+negative-binomial GLM & poi & rural & 5.0 & -0.010 & -0.024 & +0.002 & 0.79 \\
+negative-binomial GLM & poi & tribal & 5.0 & -0.008 & -0.026 & +0.007 & 1.67 \\
+80\% range & poi & svi & 10.4 & -0.067 & -0.099 & -0.038 & 0.50 \\
+80\% range & poi & cvi & 10.4 & -0.053 & -0.084 & -0.019 & 0.67 \\
+80\% range & poi & rural & 10.4 & -0.027 & -0.048 & -0.009 & 0.63 \\
+80\% range & poi & tribal & 10.4 & +0.003 & -0.029 & +0.026 & 0.89 \\
+95\% range & poi & svi & 3.1 & -0.040 & -0.052 & -0.028 & 0.32 \\
+95\% range & poi & cvi & 3.1 & -0.025 & -0.037 & -0.010 & 0.47 \\
+95\% range & poi & rural & 3.1 & -0.014 & -0.024 & -0.006 & 0.56 \\
+95\% range & poi & tribal & 3.1 & -0.012 & -0.028 & -0.002 & 0.79 \\
+Mondrian (region) calibration & poi & svi & 5.4 & -0.050 & -0.071 & -0.034 & 0.41 \\
+Mondrian (region) calibration & poi & cvi & 5.4 & -0.032 & -0.048 & -0.015 & 0.58 \\
+Mondrian (region) calibration & poi & rural & 5.4 & -0.021 & -0.035 & -0.010 & 0.54 \\
+Mondrian (region) calibration & poi & tribal & 5.4 & +0.007 & -0.018 & +0.026 & 0.73 \\
+reference gap (USA Structures $<$80\%) & bldg & svi & 1.9 & +0.005 & -0.003 & +0.015 & 1.40 \\
+reference gap (USA Structures $<$80\%) & bldg & cvi & 1.9 & +0.016 & +0.006 & +0.028 & 2.50 \\
+reference gap (USA Structures $<$80\%) & bldg & rural & 1.9 & +0.035 & +0.019 & +0.053 & 3.92 \\
+reference gap (USA Structures $<$80\%) & bldg & tribal & 1.9 & +0.027 & +0.002 & +0.069 & 4.19 \\
+reference gap (ZBP) & poi & svi & 22.8 & -0.289 & -0.319 & -0.256 & 0.18 \\
+reference gap (ZBP) & poi & cvi & 22.8 & -0.180 & -0.207 & -0.146 & 0.35 \\
+reference gap (ZBP) & poi & rural & 22.8 & -0.019 & -0.052 & +0.008 & 0.87 \\
+reference gap (ZBP) & poi & tribal & 22.8 & +0.019 & -0.020 & +0.059 & 1.20 \\
+\bottomrule
+\end{longtable}
+}

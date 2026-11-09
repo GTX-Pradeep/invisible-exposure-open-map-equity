@@ -1,12 +1,12 @@
-[build-system]
-requires = ["setuptools>=68"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "coverage_risk"
 version = "0.1.0"
-description = "Uncertainty-aware open-map coverage risk and equity audit"
+description = "Reference-free conformal auditing of open-map completeness (Invisible Exposure)"
 requires-python = ">=3.10"
-
+dependencies = ["duckdb>=1.3", "geopandas>=1.0", "pyarrow", "lightgbm>=4", "scikit-learn", "statsmodels",
+                "pandas>=2", "numpy", "matplotlib", "pyyaml", "requests", "scipy"]
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["src"]

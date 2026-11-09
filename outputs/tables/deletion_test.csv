@@ -1,0 +1,13 @@
+removed_share,detection_rate,layer
+0.1,0.106,bldg
+0.2,0.3695,bldg
+0.3,0.6635,bldg
+0.5,0.9555,bldg
+0.7,0.9955,bldg
+0.9,0.9985,bldg
+0.1,0.0345,poi
+0.2,0.088,poi
+0.3,0.1795,poi
+0.5,0.5605,poi
+0.7,0.933,poi
+0.9,0.9975,poi

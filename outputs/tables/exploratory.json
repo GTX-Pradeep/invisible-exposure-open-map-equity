@@ -1,0 +1,50 @@
+{
+  "E1": {
+    "tracts_regressed_gt20pct": 186,
+    "of_which_bexar": 181,
+    "buildings_lost": 179047.0,
+    "residents": 888819.0,
+    "housing_units": 360047.0,
+    "flag_rate_before": 0.026881720430107527,
+    "flag_rate_after": 0.8225806451612904,
+    "flag_rate_other_tracts_after": 0.04454621149042465,
+    "recall_of_ref_gaps_in_regressed": 0.8315217391304348,
+    "share_svi_q4_regressed": 0.6344086021505376,
+    "share_svi_q4_all": 0.3432713906473351,
+    "mean_svi_regressed": 0.7588897849462366,
+    "mean_svi_all": 0.5685215330723263
+  },
+  "E2_absorbed_share_svi": 1.1034199637847624,
+  "E2_absorbed_share_cvi": 0.9574723395979279,
+  "E2_absorbed_share_rural": 0.7987751002253849,
+  "E2_absorbed_share_tribal": 0.6381613259218374,
+  "E2_resid_sd_log_maptrained": 0.19424855159802745,
+  "E2_resid_sd_log_anchored": 0.2112986647073796,
+  "E2_gap_threshold_log": 0.2231435513142097,
+  "E2_anchored_coverage_of_ref": 0.8987535758071108,
+  "E2_anchored_flag_rate": 0.023191663261136086,
+  "E2_anchored_skill": {
+    "n": 9788,
+    "prevalence": 0.018492031058438906,
+    "n_flag": 227,
+    "n_true": 181,
+    "precision": 0.15859030837004406,
+    "recall": 0.19889502762430938,
+    "f1": 0.17647058823529413,
+    "lift": 8.57614330566846,
+    "auc": 0.5766536486114234,
+    "pr_auc": 0.10543190074097566
+  },
+  "E2_maptrained_skill_same_tracts": {
+    "n": 9788,
+    "prevalence": 0.018492031058438906,
+    "n_flag": 506,
+    "n_true": 181,
+    "precision": 0.09288537549407115,
+    "recall": 0.2596685082872928,
+    "f1": 0.13682678311499272,
+    "lift": 5.022994780861704,
+    "auc": 0.6838050293668233,
+    "pr_auc": 0.09892968252867093
+  }
+}
