@@ -1,6 +1,5 @@
-# Course deliverables (ADA project, due 16/11/2026 EOD)
+# Course deliverables
 
-Upload these to the Google Drive folder and give both TAs and Bhaskarjyoti Das sir view access.
 
 | # | Deliverable | File(s) | Status |
 |---|---|---|---|
