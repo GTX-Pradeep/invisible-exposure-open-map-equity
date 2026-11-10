@@ -1,0 +1,10 @@
+hazard,group,primary_ratio,primary_ci,agree_A_of_3,agree_B_of_4,verdict
+heat,svi,1.3668126222751806,0.69-3.54,1,1,primary not significant
+heat,rural,0.6033034814264954,0.18-2.49,0,0,primary not significant
+heat,tribal,0.08390863926864554,0.00-0.36,0,0,indicator-dependent
+wildfire,svi,1.2518402027686963,0.72-2.70,0,0,primary not significant
+wildfire,rural,4.793746239352055,2.38-9.41,3,4,robust
+wildfire,tribal,2.0228156040870253,0.64-4.79,0,0,primary not significant
+drought,svi,0.8289277500678308,0.44-3.65,0,0,primary not significant
+drought,rural,2.9191685452945793,1.23-7.13,2,3,robust
+drought,tribal,1.6726652405551994,0.39-4.67,0,1,primary not significant

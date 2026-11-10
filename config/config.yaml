@@ -23,7 +23,7 @@ reference:
 acs:
   year: 2024
   base: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData
-  tables: [b25001, b25002, b25024, b01003, b25034, b11001, b25003]
+  tables: [b25001, b25002, b25024, b01003, b25034, b11001, b26001]   # matches coverage_risk.features.TABLES
 
 model:
   alpha: 0.10           # 90% conformal ranges
@@ -33,3 +33,9 @@ model:
 
 audit:
   fdr_q: 0.05
+
+# Merged project (docs/merge_results.md): per-tract results imported from the sibling folders, never model inputs.
+merge:
+  mapequity_root: ../MapEquityChallenge     # base_table, audit_strata, model_inputs, OOF cache, mapequity package
+  out: data/external/merged_inputs.csv
+  seed_iforest: 20261025
