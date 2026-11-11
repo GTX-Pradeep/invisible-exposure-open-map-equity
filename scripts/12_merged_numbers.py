@@ -101,6 +101,7 @@ for it in keep.itertuples():
 rows += ["\\bottomrule\\end{tabular}"]
 open(f"{OUT}/tab_hazard_robust.tex", "w").write("\n".join(rows) + "\n")
 
+<<<<<<< HEAD
 # ---- roads and facilities: re-estimated from this repository's data (scripts/16_relative_rmse.py)
 rr = pd.read_csv("outputs/tables/review/relative_rmse_repo.csv")
 best = lambda comp: rr[(rr.component == comp) & (rr.design == "spatial") & (rr.model != "constant")].relative_rmse.min()
@@ -108,6 +109,17 @@ M["MgRrmseHwy"] = f2(best("highway")); M["MgRrmseFire"] = f2(best("fire")); M["M
 M["MgRrmseBldg"] = f2(best("buildings"))
 rat = pd.read_csv("outputs/tables/review/highway_loro_repo.csv").set_index("region").predicted_over_observed
 M["MgHwyLoroAz"] = f2(rat["maricopa-az"]); M["MgHwyLoroTx"] = f2(rat["south-central-tx"])
+=======
+# ---- roads and facilities (companion pipeline; in-repo copies written by scripts/11b_import_companion.py)
+CP = "data/external/companion"
+lp = pd.read_csv(f"{CP}/layer_predictability.csv")
+rr = lambda comp: lp[(lp.component == comp) & (lp.design == "spatial")].rrmse.iloc[0]
+M["MgRrmseBldg"] = f2(rr("buildings")); M["MgRrmseHwy"] = f2(rr("highways")); M["MgRrmseFire"] = f2(rr("fire")); M["MgRrmseEms"] = f2(rr("ems"))
+ht = pd.read_csv(f"{CP}/highway_transfer.csv").set_index("region").predicted_over_observed
+M["MgHwyLoroAz"] = f2(ht["maricopa-az"]); M["MgHwyLoroTx"] = f2(ht["south-central-tx"])
+pv = pd.read_csv(f"{CP}/provenance_beyond_counts.csv")
+M["MgProvMaeMin"] = f"{pv.delta_mae_plus_minus_base.min():+.3f}"; M["MgProvMaeMax"] = f"{pv.delta_mae_plus_minus_base.max():+.3f}"
+>>>>>>> 9550b1c9c0451fb1f8f9d3b7b6e530418447aa19
 
 # ---- data checks (eda/) and model checks (modelling/): reproducibility and limitations
 from pathlib import Path

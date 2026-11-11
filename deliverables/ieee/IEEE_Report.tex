@@ -8,12 +8,16 @@
 \usepackage[hidelinks]{hyperref}
 \graphicspath{{../../outputs/figures/}}
 \input{../../paper/numbers.tex}
+\input{../../paper/numbers_merged.tex}
+\input{../../paper/numbers_reference.tex}
+\input{../../paper/numbers_journal.tex}
 
 \begin{document}
 \title{Invisible Exposure: Reference-Free Conformal Auditing of Open-Map Completeness and Hidden Climate-Hazard Exposure}
 
-\author{\IEEEauthorblockN{Pradeep}
-\IEEEauthorblockA{ADA Course Project\\
+\author{\IEEEauthorblockN{Pradeep T, Prajwal A, Nikhita P Uppar, Sakshi Kiran}
+\IEEEauthorblockA{Department of CSE (AI \& ML), PES University, Bengaluru, India\\
+ADA Course Project\\
 Code and data: \url{https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity}}}
 
 \maketitle
@@ -161,14 +165,26 @@ The reference shows rural and tribal gaps 3--4$\times$ more often, yet flags do 
 \caption{Odds ratios of a building gap by group: map-trained flag, reference-anchored flag, reference gap.}\label{fig:lens}
 \end{figure}
 
+\begin{table}[t]\centering\footnotesize
+\caption{Exploratory: eight methods under the same budget of \MgBudget{} flags, scored against the USA Structures gap (prevalence \PrevBldg{}). Lift = precision / prevalence. No method differs from the conformal model in precision, recall or PR-AUC (paired county-cluster bootstrap).}\label{tab:baselines}
+\resizebox{\columnwidth}{!}{\input{../../paper/tab_baselines.tex}}
+\end{table}
+
+\subsection{Imported footprints and reference validation (exploratory)}
+The tracts that lost buildings in the October release had been built mostly from Microsoft footprints (\MgRegMsftPooled{} of their buildings), and imports fail in a second way: in the \MgDomTracts{} tracts where Microsoft supplies at least 90\% of buildings, only \MgDomLabel{} of buildings carry a use class, against \MgOtherLabel{} elsewhere. Simpler expectations, including an Isolation Forest, rank gaps about as well as our model (Table~\ref{tab:baselines}; lift \MgLiftMin{}--\MgLiftMax{}$\times$ under the same flag budget, against 1.0$\times$ for random flags), so the model's contribution is calibrated ranges and release monitoring, not better ranking. Checked against USA Structures for all \RvN{} tracts, our companion pipeline's log-linear shortfall ranks real gaps best by ROC-AUC (\RvMeAuc{}), while our model's highest-ranked tracts are more often real gaps (higher PR-AUC), raw sparsity is worse than chance (\RvRawAuc{}), and real gaps are \RvRuralRef{}$\times$ more common in rural and \RvTribalRef{}$\times$ in tribal tracts, more than any score shows (rural: MapEquity \RvRuralMe{}$\times$, ours \RvRuralCf{}$\times$).
+
+\textbf{Revision checks.} A one-sided conformal lower bound at 5\% flags \JoFlagRate{} of tracts, nearly the same set as the published flags (Jaccard \JoJaccard{}). Across ten seeds, flag sets overlap \JsPairMin{}--\JsPairMax{}, and the \JsStable{} tracts flagged under at least nine seeds are more precise (lift \JsStableLift{}$\times$). When a whole region is held out, calibrating on 50 of its own tracts, which needs only the map's counts, restores coverage to \JtFiftyMin{}--\JtFiftyMax{}. Measured directly against the reference, missing structures in high-wildfire tracts are \JhWildfireRural{}$\times$ more common per housing unit in rural tracts (model-based: \HFiveWildRural{}$\times$).
+
 \subsection{Original hypotheses and robustness}
-The original template's five hypotheses, tested as worded with Mann--Whitney U: hidden exposure is higher in high-SVI$\times$high-heat tracts (mean \OrigHOne{}; $p_{BH}=\OrigHOneP{}$); rural or tribal high-drought tracts have \emph{lower} single-source dependence; completeness improved slightly faster in high-SVI tracts; hidden exposure did not differ by wildfire quartile. \RobustTextShort{}
+The original template's five hypotheses, tested as worded with Mann--Whitney U: hidden exposure is higher in high-SVI$\times$high-heat tracts (mean \OrigHOne{}; $p_{BH}=\OrigHOneP{}$); rural or tribal high-drought tracts have \emph{lower} single-source dependence; completeness improved slightly faster in high-SVI tracts; hidden exposure did not differ by wildfire quartile. \RobustTextShort{} Across \MgNVariants{} model settings coverage stayed at \MgCovMin{}--\MgCovMax{}, but the flag set is sensitive: a new random seed keeps an overlap of only \MgSeedOverlap{}. Small tracts are flagged far more often than large ones (\MgFlagSmallDecile{} vs.\ \MgFlagLargeDecile{} by expected-size decile), eastern Washington almost never (\MgWaFlag{}), and residuals are spatially autocorrelated within regions (Moran's $I$ \MgMoranMin{}--\MgMoranMax{}).
+
+\textbf{Reproducibility.} Rebuilding from raw downloads reproduces all \MgReproCols{} columns of the tract table for all \NTracts{} tracts to floating-point precision, and refitting reproduces all \MgReproFlags{} flags. A built-in table check stops the pipeline if GEOIDs, counts or shares are malformed, and the repository runs without the companion project's folders.
 
 \section{Changes from the Original Plan}
 The plan targeted five whole states and Overture \texttt{2025-09-24.0}. Overture deletes releases after about 60 days and the audit strata are distributed for the challenge regions, so we used those regions and three available snapshots. The Phase~1 gate found only \RefGapShare{} of tracts below 80\% of the reference, so both layers are reported. LODES jobs were added because ACS alone explained only $R^2=0.42$ of POI variance. The original pre-registration template is preserved and tested as worded alongside the completed version.
 
 \section{Discussion and Limitations}
-Overture buildings are close to complete in these regions, and rural and tribal gaps largely closed between 2023 and 2026. The largest failure observed was a release regression in high-vulnerability neighbourhoods, which the reference-free model can monitor with a known false-alarm rate. Equity conclusions about modest, systematic gaps, however, require reference comparisons aggregated by group. Limitations: both building sources are imagery-derived; the POI reference is area-allocated; hazards are tract averages; the 2023 snapshot is an archived alpha copy; the five regions are not a national sample.
+Overture buildings are close to complete in these regions, and rural and tribal gaps largely closed between 2023 and 2026. The largest failure observed was a release regression in high-vulnerability neighbourhoods, which the reference-free model can monitor: flags have a calibrated rate relative to the map's own distribution (not a false-alarm rate against the truth), and a 50\% loss is detected in \DelFiftyBldg{} of tracts. Equity conclusions about modest, systematic gaps, however, require reference comparisons aggregated by group. Limitations: both building sources are imagery-derived; the POI reference is area-allocated; hazards are tract averages; the 2023 snapshot is an archived alpha copy; the five regions are not a national sample. Our checks add four more: single tract flags change with the random seed (overlap \MgSeedOverlap{}), so they are triage signals; calibration is uneven across tract sizes, so the 90\% guarantee holds on average only; USA Structures imagery dates from \MgImgFirst{}--\MgImgLast{}, so recent construction or demolition can blur gaps; and ACS margins of error are ignored (\MgGqTracts{} tracts are mostly group quarters).
 
 \section{Conclusion}
 A reference-free conformal completeness model audits open maps with calibrated uncertainty, detects real losses between releases, and links gaps to hidden climate exposure. Its tract-level flags should be paired with group-level reference comparisons in equity audits. Future work: national release-regression monitoring and group-level reference audits for roads and facilities.

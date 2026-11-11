@@ -59,3 +59,6 @@ deliverables/ieee/*.blg
 deliverables/ieee/*.fls
 deliverables/ieee/*.fdb_latexmk
 deliverables/ieee/*.synctex.gz
+
+# small model output needed to regenerate paper numbers
+!modelling/tables/oof_bldg_primary.parquet

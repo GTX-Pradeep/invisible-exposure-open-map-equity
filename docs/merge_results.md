@@ -95,6 +95,7 @@ rural differences), which is one more reason the project models are comparison m
 * `src/coverage_risk/model.py`: `assert_no_leakage` also refuses the imported prefixes (`mec_`, `alt_`, `if_`, `exp_`, `prj_`).
 * `tests/test_core.py`: two tests (11 pass). `docs/preregistration.md`: Deviation 5.
 * Not yet changed: `paper/`, `deliverables/`, `scripts/10_paper_numbers.py` (plan step 5).
+<<<<<<< HEAD
 * 2026-11-11, later: `MgRrmse*` and `MgHwyLoro*` are now re-estimated from this repository's own data by
   `scripts/16_relative_rmse.py` (Poisson/Tweedie GLMs, LightGBM, XGBoost on the five structural inputs, the conformal model's
   spatial folds and leave-one-region-out). Values: buildings 0.48, highways 0.53, fire 0.92, EMS 1.00; highway transfer 1.49x
@@ -103,3 +104,29 @@ rural differences), which is one more reason the project models are comparison m
 * 2026-11-11, evening: `data/external/companion/` and `scripts/11b_import_companion.py` were removed. The only number still
   taken from it (`MgProvMae*`, the companion pipeline's provenance-beyond-counts check) was dropped from the paper; the same
   point is made by our own pre-registered H4 test (`outputs/tables/h4_provenance.json`). Only `11a` reads the sibling project.
+=======
+
+## Independent review and additions (2026-11-11)
+
+Every imported number was checked against the companion sources before the merged work was kept.
+
+| Check | Result |
+|---|---|
+| SHA-256 of all six imported source files | match `outputs/tables/merged/merged_sources.json` |
+| Building / Microsoft counts vs this pipeline's own extraction | agree in 98.5% / 99.3% of tracts |
+| Use-class share in Microsoft-dominant tracts, from `base_table.parquet` | 1.05% vs 24.9% elsewhere (as reported) |
+| N3 comparison inputs rebuilt from the raw OOF cache | identical (max difference 0.0); lifts NB 5.06, XGB 4.64 |
+| N1-N5 rerun from committed inputs | identical to floating-point noise (1e-12) |
+
+Changes made in review:
+- **Self-contained.** `scripts/11b_import_companion.py` writes `data/external/companion/` (layer predictability, highway transfer,
+  provenance-beyond-counts, MapEquity risk scores; SHA-256 in `sources.json`). `scripts/12_merged_numbers.py` and
+  `scripts/14_reference_validation.py` read only these copies; `tests/test_self_contained.py` enforces it. Road/fire/EMS relative RMSE
+  now comes from the verified research cache (spatial folds): buildings 0.49, highways 0.52, fire 0.92, EMS 0.99.
+- **Wording.** "consistent with H4" now refers to the descriptive source comparison (H4's test was null); "reproduces exactly" is
+  "to floating-point precision"; the boundary-assignment limitation (3 buildings, 62 places) was dropped.
+- **Restored** the deliverable build scripts (`deliverables/build_*.js`, `notebooks/make_notebook.py`).
+- **New exploratory R1-R2** (`scripts/14_reference_validation.py`): both teams' scores against USA Structures for all tracts. This answers
+  the companion experiment plan's E1/E4/E9 without hand labelling and corrects the companion manuscript's claim that rural disparities are
+  model artefacts: real gaps are 3.72x (rural, RUCA >= 4 as pre-registered; 2.64x with the Census urban/rural class) and 2.71x (tribal) more common, and both scores under-state this.
+>>>>>>> 9550b1c9c0451fb1f8f9d3b7b6e530418447aa19
