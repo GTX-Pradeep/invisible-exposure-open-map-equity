@@ -18,7 +18,7 @@ const HEX = { ink: "16324F", ember: "D9622B", teal: "2F8F83", gold: "E3A72F", sl
 const pres = new pptxgen();
 pres.layout = "LAYOUT_WIDE"; // 13.33 x 7.5
 pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
-pres.title = "Invisible Exposure"; pres.author = "Pradeep";
+pres.title = "Invisible Exposure"; pres.author = "Pradeep T";
 const C = pres.SchemeColor;
 
 pres.defineSlideMaster({ title: "TITLE_DARK", background: { color: C.text2 }, objects: [
@@ -54,7 +54,7 @@ pres.addSection({ title: "Introduction" });
 let s = pres.addSlide({ masterName: "TITLE_DARK", sectionTitle: "Introduction" });
 s.addText("Invisible Exposure", { placeholder: "title" });
 s.addText([{ text: "Where open maps miss buildings, who lives there, and whether it is getting better", options: { breakLine: true } },
-  { text: "Pradeep  |  ADA course project, November 2026", options: { fontSize: 14 } }], { placeholder: "body" });
+  { text: "Pradeep T, Prajwal A, Nikhita P Uppar, Sakshi Kiran  |  PES University  |  ADA course project, November 2026", options: { fontSize: 14 } }], { placeholder: "body" });
 s.addNotes("Introduce the team and the one-line idea: climate-risk tools count buildings from open maps, so missing buildings mean missing risk.");
 
 // 2 problem

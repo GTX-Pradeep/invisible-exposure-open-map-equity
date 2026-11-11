@@ -99,7 +99,8 @@ C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 400 },
   children: [new TextRun({ text: "Reference-free, conformal auditing of open-map completeness and the climate-hazard exposure it hides", size: 30, font: FONT })] }));
 C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "Complete project documentation", size: 26, bold: true })] }));
 C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "ADA course project  |  November 2026", size: 22 })] }));
-C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "Pradeep", size: 22 })] }));
+C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "Pradeep T, Prajwal A, Nikhita P Uppar, Sakshi Kiran", size: 22 })] }));
+C.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [new TextRun({ text: "Department of CSE (AI & ML), PES University, Bengaluru, India", size: 20 })] }));
 C.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [link("github.com/GTX-Pradeep/invisible-exposure-open-map-equity", "https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity")] }));
 C.push(PB());
 C.push(new Paragraph({ children: [new TextRun({ text: "Contents", bold: true, size: 32, color: BLUE })], spacing: { after: 200 } }));
@@ -398,7 +399,7 @@ C.push(H1("13. Key references"));
 
 // ======================================================================= document
 const doc = new Document({
-  creator: "Pradeep",
+  creator: "Pradeep T",
   features: { updateFields: true },
   title: "Invisible Exposure: complete project documentation",
   styles: {
