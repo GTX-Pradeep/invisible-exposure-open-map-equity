@@ -64,7 +64,7 @@ For a guided tour without rerunning ingestion, open [`notebooks/Invisible_Exposu
 | Gate | `docs/preregistration.md` | frozen before Phases 5-7 |
 | 5-7 | `05_provenance.py`, `06_audit.py`, `06b_fdr.py`, `06c_robustness.py`, `06d_original_hypotheses.py`, `07_catchup.py` | H1-H5, FDR, robustness |
 | Expl. | `09_exploratory.py` | release regression, absorption, H3 sensitivity |
-| Merged | `11a_import_merged.py`, `11_merged_exploratory.py`, `16_relative_rmse.py`, `12_merged_numbers.py`, `15_review_checks.py` | N1-N5 ([`docs/merge_results.md`](docs/merge_results.md)). Only `11a` needs `../MapEquityChallenge`; its output (`data/external/merged_inputs.csv`) is committed with SHA-256 hashes of its sources, so every later step runs from this repository alone |
+| Merged | `11a_import_merged.py`, `11_merged_exploratory.py`, `16_relative_rmse.py`, `12_merged_numbers.py`, `17_review_checks.py` | N1-N5 ([`docs/merge_results.md`](docs/merge_results.md)). Only `11a` needs `../MapEquityChallenge`; its output (`data/external/merged_inputs.csv`) is committed with SHA-256 hashes of its sources, so every later step runs from this repository alone |
 | 8 | `08_figures.py`, `10_paper_numbers.py` | figures; every number in the paper is generated |
 
 A clean rerun from this repository reproduces `paper/numbers.tex` and every result table byte-for-byte.
