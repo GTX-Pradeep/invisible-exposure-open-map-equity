@@ -1,0 +1,7 @@
+,share of study tracts passing
+occupied + vacant = housing units (B25002),1.0
+B25002 total = B25001,1.0
+units-in-structure categories sum to total (B25024),1.0
+year-built categories sum to total (B25034),1.0
+households <= housing units,1.0
+group quarters <= population,1.0

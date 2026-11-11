@@ -1,0 +1,7 @@
+{
+  "sources_sha256": {
+    "academic_research/ablation_benchmarks/cache/oof_predictions.parquet": "c3b5c13866735544d3e1796fd1064fd53e0ca701aaf7f95f688a7b493b52aed2",
+    "academic_research/shared_inputs/risk/frozen_spatial_oof_risk.parquet": "55b42bda168731856fb3d9df05c5c58a3685926365d36e4dde86b802a2dea1f7"
+  },
+  "note": "provenance_beyond_counts.csv transcribes the saved output of academic_research/spatial_and_novelty/notebooks/07 (4 decimals)."
+}

@@ -90,3 +90,20 @@ def test_provenance_entropy_bounds():
     p = provenance_features(df, "r")
     assert p.b_src_entropy.iloc[0] == 0 and np.isclose(p.b_src_entropy.iloc[1], 2.0)
     assert p.b_single_source.tolist() == [1.0, 0.0]
+
+
+def test_leakage_guard_refuses_merged_imports():
+    """Every column of data/external/merged_inputs.csv is refused as a model input."""
+    for bad in ["mec_bldg_n_class", "mec_bldg_n_msft", "alt_usfs_WHP_mean", "alt_pmdi_mean", "if_poi_n",
+                "exp_mu_nb", "exp_y", "prj_mu_G", "prj_y"]:
+        with pytest.raises(ValueError):
+            assert_no_leakage(["hu", bad])
+
+
+def test_topk_budget_flags_exactly_k():
+    import importlib.util, pathlib
+    spec = importlib.util.spec_from_file_location("m11", pathlib.Path(__file__).resolve().parents[1] / "scripts" / "11_merged_exploratory.py")
+    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    s = pd.Series([0.1, np.nan, 3.0, 2.0, 2.0, -1.0])
+    f = m.topk(s, 3)
+    assert f.sum() == 3 and f[2] and not f[1]          # NaN never flagged; ties broken stably

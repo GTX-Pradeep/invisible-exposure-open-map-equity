@@ -298,6 +298,14 @@ C.push(table(["Hypothesis (original wording)", "n (a / b)", "Mean a", "Mean b", 
 C.push(space());
 C.push(H2("7.8 Robustness"));
 C.push(P(tex(M.RobustText)));
+C.push(H2("7.9 Merged companion analyses and reference validation (exploratory)"));
+C.push(P(`These analyses come from the team's companion MapEquity pipeline and were added after the pre-registration, so they are exploratory and form their own false-discovery family (${m("MgNFam")} tests).`));
+[`**Imported buildings fail twice (N1, N4):** the tracts that lost buildings in the October 2026 release were built mostly from Microsoft footprints (${m("MgRegMsftPooled")} of their buildings). Where Microsoft supplies at least 90% of buildings (${m("MgDomTracts")} tracts), only ${m("MgDomLabel")} of buildings carry a use class, against ${m("MgOtherLabel")} elsewhere.`,
+ `**Simpler methods rank gaps as well (N3):** under the same budget of ${m("MgBudget")} flags, eight methods reach lift ${m("MgLiftMin")}-${m("MgLiftMax")}x, and none differs significantly from the conformal model. Its value is calibrated ranges and release monitoring, not ranking.`,
+ `**Hazard robustness (N2):** the rural wildfire result holds under every alternative indicator (${m("MgWildMin")}-${m("MgWildMax")}x); the drought result weakens within regions.`,
+ `**Model checks:** coverage stays at ${m("MgCovMin")}-${m("MgCovMax")} across ${m("MgNVariants")} settings, but a new random seed changes about ${m("MgSeedChanged")} of flagged tracts, and small tracts are flagged far more often (${m("MgFlagSmallDecile")} vs ${m("MgFlagLargeDecile")}).`,
+ `**Reference validation (R1):** against USA Structures for ${m("RvN")} tracts, MapEquity's peer-normalised shortfall ranks real gaps best (ROC-AUC ${m("RvMeAuc")}), the conformal deficit reaches ${m("RvCfAuc")}, and raw sparsity is worse than chance (${m("RvRawAuc")}).`,
+ `**Group excess (R2):** real gaps are ${m("RvRuralRef")}x more common in rural and ${m("RvTribalRef")}x in tribal tracts; MapEquity's high-risk tracts over-represent rural tracts by ${m("RvRuralMe")}x and the conformal deficit by ${m("RvRuralCf")}x, so both scores under-state real rural and tribal under-mapping.`].forEach((t) => C.push(B(t)));
 
 // ---- 8 changes from plan
 C.push(H1("8. What changed from the original plan, and why"));

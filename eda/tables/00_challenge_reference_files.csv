@@ -1,0 +1,46 @@
+region,file,MB,rows,used_by_pipeline
+maricopa-az,census-acs-housing.csv,0.050767,1593,no
+maricopa-az,census-acs-housing.parquet,3.457173,1593,no
+maricopa-az,overture-buildings.parquet,324.720762,2908224,yes (buildings)
+maricopa-az,overture-infrastructure.parquet,0.918681,9482,no
+maricopa-az,overture-pois.parquet,40.987154,300046,yes (places)
+maricopa-az,overture-rail.parquet,1.657987,3830,no
+maricopa-az,overture-roads-unfiltered.parquet,262.146919,1170165,no
+maricopa-az,overture-roads.parquet,80.052206,494492,no
+maricopa-az,sample-submission.csv,0.046258,1593,yes (tract list)
+northern-ca,census-acs-housing.csv,0.018887,591,no
+northern-ca,census-acs-housing.parquet,3.03754,591,no
+northern-ca,overture-buildings.parquet,130.554079,1164724,yes (buildings)
+northern-ca,overture-infrastructure.parquet,0.309977,3318,no
+northern-ca,overture-pois.parquet,16.16872,116897,yes (places)
+northern-ca,overture-rail.parquet,1.068289,2006,no
+northern-ca,overture-roads-unfiltered.parquet,157.211249,479596,no
+northern-ca,overture-roads.parquet,43.515963,191836,no
+northern-ca,sample-submission.csv,0.0172,591,yes (tract list)
+eastern-ok,census-acs-housing.csv,0.037914,1192,no
+eastern-ok,census-acs-housing.parquet,3.650879,1192,no
+eastern-ok,overture-buildings.parquet,298.882068,2551694,yes (buildings)
+eastern-ok,overture-infrastructure.parquet,0.290394,2726,no
+eastern-ok,overture-pois.parquet,28.848614,207369,yes (places)
+eastern-ok,overture-rail.parquet,1.989707,5066,no
+eastern-ok,overture-roads-unfiltered.parquet,192.989343,1037555,no
+eastern-ok,overture-roads.parquet,82.239229,520550,no
+eastern-ok,sample-submission.csv,0.034629,1192,yes (tract list)
+south-central-tx,census-acs-housing.csv,0.191458,6010,no
+south-central-tx,census-acs-housing.parquet,13.758433,6010,no
+south-central-tx,overture-buildings.parquet,1269.949045,11463801,yes (buildings)
+south-central-tx,overture-infrastructure.parquet,1.394119,13622,no
+south-central-tx,overture-pois.parquet,179.937096,1300334,yes (places)
+south-central-tx,overture-rail.parquet,5.970991,17895,no
+south-central-tx,overture-roads-unfiltered.parquet,783.316505,4122701,no
+south-central-tx,overture-roads.parquet,299.75127,1937009,no
+south-central-tx,sample-submission.csv,0.174148,6003,yes (tract list)
+eastern-wa,census-acs-housing.csv,0.013263,415,no
+eastern-wa,census-acs-housing.parquet,2.532145,415,no
+eastern-wa,overture-buildings.parquet,125.351011,1081346,yes (buildings)
+eastern-wa,overture-infrastructure.parquet,0.345091,4131,no
+eastern-wa,overture-pois.parquet,10.761396,76491,yes (places)
+eastern-wa,overture-rail.parquet,1.399171,3473,no
+eastern-wa,overture-roads-unfiltered.parquet,116.325606,383136,no
+eastern-wa,overture-roads.parquet,31.401139,142649,no
+eastern-wa,sample-submission.csv,0.012096,415,yes (tract list)

@@ -35,10 +35,25 @@ df = (spine.merge(feat, on="GEOID").merge(ov, on="GEOID").merge(prov, on="GEOID"
 df["county"] = df.GEOID.str[:5]
 df["lat"] = pd.to_numeric(df.INTPTLAT); df["lon"] = pd.to_numeric(df.INTPTLON)
 df = df.drop(columns=["INTPTLAT", "INTPTLON"])
-# exit checks
+# exit checks: stop here rather than let a bad join reach the model (each check names what failed)
 miss = df[["hu", "pop", "land_km2"]].isna().sum()
 print("missing structural:", miss.to_dict())
 print(df.shape, df.region.value_counts().to_dict())
+problems = []
+if len(df) != len(tracts): problems.append(f"{len(df)} rows but {len(tracts)} study tracts (a merge dropped or duplicated tracts)")
+if df.GEOID.duplicated().any(): problems.append(f"{int(df.GEOID.duplicated().sum())} duplicate GEOIDs")
+if not df.GEOID.str.fullmatch(r"\d{11}").all(): problems.append("GEOIDs that are not 11-digit text (leading zeros lost?)")
+if (df.region.value_counts().sort_index() != tracts.region.value_counts().sort_index()).any(): problems.append("tracts per region differ from the tract list")
+if miss.any(): problems.append(f"missing structural inputs: {miss[miss > 0].to_dict()}")
+cnt = [c for c in df.columns if c.startswith("r2026a_") and df[c].dtype.kind in "if" and not c.endswith(("_med", "_m2"))]
+if (df[cnt] < 0).any().any(): problems.append("negative Overture counts")
+if (df.r2026a_bldg450 > df.r2026a_bldg).any(): problems.append("more buildings >= 450 sq ft than buildings in some tract")
+if df.ref_bldg.notna().mean() < 0.99: problems.append(f"USA Structures count missing for {df.ref_bldg.isna().mean():.1%} of tracts")
+if problems:
+    raise SystemExit("tract table failed its checks:\n  - " + "\n  - ".join(problems))
+print("tract table checks passed: rows, unique 11-digit GEOIDs, region counts, structural inputs, counts, reference coverage")
+from coverage_risk.checks import check_tract_table   # stops the pipeline on a broken join or parse (docs: src/coverage_risk/checks.py)
+print(check_tract_table(df, expected_geoids=tracts.GEOID))
 df.to_parquet(f"{P}/tracts_all.parquet", index=False)
 
 # audit strata (kept apart from the model table)

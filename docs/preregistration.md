@@ -86,3 +86,9 @@ Recorded after the freeze, with date and reason. None changes a pre-registered e
 4. **2026-11-09: H5 inference.** For one contrast (heat, tribal vs. non-tribal) some bootstrap
    replicates have zero hidden exposure in the tribal group. Its bootstrap p-value is computed on
    the replicates with a positive ratio. The 95% CI excludes 1 either way.
+5. **2026-11-10: merged-project exploratory analyses N1-N5 (not pre-registered).** Specified before
+   running and summarized in `docs/merge_results.md`. They use
+   per-tract results imported from the team's other project folders (`scripts/11a_import_merged.py`) and are
+   reported as *exploratory*, with their own BH family (`outputs/tables/merged/n_family_fdr.csv`), never mixed with H1-H5.
+   Two implementation choices were made while running, both recorded in `docs/merge_results.md`: the bootstrap
+   p-value is capped at 1, and N4 adds a sensitivity fit without Eastern WA (no reference gaps there).

@@ -1,0 +1,17 @@
+{
+  "rows": 9794,
+  "missing_by_column": {
+    "alt_epht_heat_days_summer": 2,
+    "alt_mtbs_wildfire_burned_pct_land": 2,
+    "alt_spi12_mean": 2,
+    "alt_usdm_summer_dsci": 2
+  },
+  "sha256": {
+    "MapEquityChallenge/eda_outputs/base_table.parquet": "230696bd8f4b109bb417526bb768a934f449aac1a694294bd9b24e9e97f551a2",
+    "MapEquityChallenge/eda_outputs/audit_strata.parquet": "23359e2fbd52a2e360b613abde21aca18b568a44617548df44cdc82e6e7bbd54",
+    "MapEquityChallenge/eda_outputs/model_inputs.parquet": "4af4ccfbda48929e9b822ca20f9a2f548d25d67e1d125968b489dcaeaf5e9cdc",
+    "MapEquityChallenge/academic_research/ablation_benchmarks/cache/oof_predictions.parquet": "c3b5c13866735544d3e1796fd1064fd53e0ca701aaf7f95f688a7b493b52aed2",
+    "MapEquityChallenge/academic_research/shared_inputs/features/tract_features.parquet": "4b06f92003be32e0eade992e0f7700e9a240c94d001df321b4393680baefb18e",
+    "MapEquityChallenge/academic_research/shared_inputs/features/audit_attributes.parquet": "44fabb627b160473a0ca1a604f84586d182c248c8411634c7046d1b87eec7c64"
+  }
+}

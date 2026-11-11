@@ -1,0 +1,33 @@
+method,minus,metric,diff,ci_lo,ci_hi,p
+OLS log-HU (IE),conformal model (IE),precision,-0.0196078431372549,-0.08376227203459315,0.0556669148703951,0.652
+OLS log-HU (IE),conformal model (IE),recall,-0.054945054945054944,-0.23256610385473078,0.142164745776816,0.588
+OLS log-HU (IE),conformal model (IE),roc_auc,0.04346267612316912,-0.01913724604376395,0.11479722663823252,0.166
+OLS log-HU (IE),conformal model (IE),pr_auc,-0.03587491952150115,-0.10147667097784648,0.03764985045595395,0.416
+map/housing ratio (IE),conformal model (IE),precision,-0.00392156862745098,-0.03829984891983435,0.03368543650141572,0.776
+map/housing ratio (IE),conformal model (IE),recall,-0.010989010989011005,-0.13043478260869565,0.09328482587064675,0.814
+map/housing ratio (IE),conformal model (IE),roc_auc,-0.22180114132044215,-0.3317319046445682,-0.13638079593595526,0.0005
+map/housing ratio (IE),conformal model (IE),pr_auc,-0.01775293492897377,-0.05324287362872185,0.03261135244028846,0.512
+Isolation Forest (experiments),conformal model (IE),precision,0.00392156862745098,-0.036740148027318204,0.043934932486445984,0.802
+Isolation Forest (experiments),conformal model (IE),recall,0.010989010989011005,-0.09787651230705051,0.15219122126834664,0.874
+Isolation Forest (experiments),conformal model (IE),roc_auc,0.08120674456123411,-0.0025764709485291944,0.1678961150551535,0.055
+Isolation Forest (experiments),conformal model (IE),pr_auc,-0.0046191785353618675,-0.05599377526709265,0.053148454115067446,0.973
+NB shortfall (experiments),conformal model (IE),precision,0.0,-0.0663750382679126,0.08083190913548045,0.93
+NB shortfall (experiments),conformal model (IE),recall,0.0,-0.18369156173107545,0.19886889730639726,0.974
+NB shortfall (experiments),conformal model (IE),roc_auc,0.051260517653192506,-0.008018541466392609,0.11539449744626569,0.092
+NB shortfall (experiments),conformal model (IE),pr_auc,-0.030659683705692345,-0.09341442066972303,0.04435721758964277,0.567
+XGB shortfall (experiments),conformal model (IE),precision,-0.00784313725490196,-0.053718824578346445,0.04376033229278725,0.805
+XGB shortfall (experiments),conformal model (IE),recall,-0.021978021978021983,-0.1416722972972973,0.1089244372198413,0.758
+XGB shortfall (experiments),conformal model (IE),roc_auc,0.04437795063120209,0.00447799904161938,0.08529349901733516,0.029
+XGB shortfall (experiments),conformal model (IE),pr_auc,-0.028512933774845733,-0.07528172448954752,0.025861287585036145,0.344
+XGB model E: structure+rural+region (project),conformal model (IE),precision,-0.0196078431372549,-0.05590237101547433,0.02570700870713024,0.407
+XGB model E: structure+rural+region (project),conformal model (IE),recall,-0.054945054945054944,-0.15386597938144328,0.0538513513513513,0.347
+XGB model E: structure+rural+region (project),conformal model (IE),roc_auc,0.000987307355010958,-0.032546096555387705,0.040232638312745504,0.935
+XGB model E: structure+rural+region (project),conformal model (IE),pr_auc,-0.034772772788366935,-0.07455781849833308,0.008735368011272386,0.129
+XGB model G: E + neighbour density (project),conformal model (IE),precision,-0.0196078431372549,-0.05400534853799282,0.022994590143533923,0.393
+XGB model G: E + neighbour density (project),conformal model (IE),recall,-0.054945054945054944,-0.15646406388642414,0.05512904636920377,0.376
+XGB model G: E + neighbour density (project),conformal model (IE),roc_auc,-0.015192070441264027,-0.05576405597678318,0.0324234507511179,0.556
+XGB model G: E + neighbour density (project),conformal model (IE),pr_auc,-0.032795048682991296,-0.07436026052712216,0.013860914650555405,0.182
+XGB model G: E + neighbour density (project),XGB model E: structure+rural+region (project),precision,0.0,-0.01384470414904723,0.011877848463062803,1.0
+XGB model G: E + neighbour density (project),XGB model E: structure+rural+region (project),recall,0.0,-0.026850172319970965,0.036231884057970995,1.0
+XGB model G: E + neighbour density (project),XGB model E: structure+rural+region (project),roc_auc,-0.016179377796274985,-0.04348465934517153,0.02383078202906229,0.351
+XGB model G: E + neighbour density (project),XGB model E: structure+rural+region (project),pr_auc,0.001977724105375639,-0.006688605832198432,0.013069890192017087,0.871

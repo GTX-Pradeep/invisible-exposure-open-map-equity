@@ -1,0 +1,260 @@
+{
+  "join_rate": 1.0,
+  "n_tracts": 9794,
+  "N1": {
+    "n_regressed": 186,
+    "n_regressed_bexar": 181,
+    "buildings_lost_450": 179047.0,
+    "regressed_msft_share_pooled": 0.7952391750799273,
+    "share_regressed_where_loss_le_msft_count": 1.0,
+    "spearman_loss_vs_msft_share_regressed": 0.6797666452670318,
+    "regressed_class_share_pooled": 0.04018217879967678,
+    "other_class_share_pooled": 0.19663192196678855,
+    "rule_msft_dom_diff_vs_sctx": 0.2475944531571821,
+    "rule_ci_county": [
+      -0.22613471167824262,
+      0.30805302585193894
+    ],
+    "rule_ci_tract": [
+      0.17563284088590964,
+      0.3194493869982245
+    ],
+    "decision": "two separate failures"
+  },
+  "N2": {
+    "reproduces_IE_H5": true,
+    "verdicts": [
+      {
+        "hazard": "heat",
+        "group": "svi",
+        "primary_ratio": 1.3668126222751806,
+        "primary_ci": "0.69-3.54",
+        "agree_A_of_3": 1,
+        "agree_B_of_4": 1,
+        "verdict": "primary not significant"
+      },
+      {
+        "hazard": "heat",
+        "group": "rural",
+        "primary_ratio": 0.6033034814264954,
+        "primary_ci": "0.18-2.49",
+        "agree_A_of_3": 0,
+        "agree_B_of_4": 0,
+        "verdict": "primary not significant"
+      },
+      {
+        "hazard": "heat",
+        "group": "tribal",
+        "primary_ratio": 0.08390863926864554,
+        "primary_ci": "0.00-0.36",
+        "agree_A_of_3": 0,
+        "agree_B_of_4": 0,
+        "verdict": "indicator-dependent"
+      },
+      {
+        "hazard": "wildfire",
+        "group": "svi",
+        "primary_ratio": 1.2518402027686963,
+        "primary_ci": "0.72-2.70",
+        "agree_A_of_3": 0,
+        "agree_B_of_4": 0,
+        "verdict": "primary not significant"
+      },
+      {
+        "hazard": "wildfire",
+        "group": "rural",
+        "primary_ratio": 4.793746239352055,
+        "primary_ci": "2.38-9.41",
+        "agree_A_of_3": 3,
+        "agree_B_of_4": 4,
+        "verdict": "robust"
+      },
+      {
+        "hazard": "wildfire",
+        "group": "tribal",
+        "primary_ratio": 2.0228156040870253,
+        "primary_ci": "0.64-4.79",
+        "agree_A_of_3": 0,
+        "agree_B_of_4": 0,
+        "verdict": "primary not significant"
+      },
+      {
+        "hazard": "drought",
+        "group": "svi",
+        "primary_ratio": 0.8289277500678308,
+        "primary_ci": "0.44-3.65",
+        "agree_A_of_3": 0,
+        "agree_B_of_4": 0,
+        "verdict": "primary not significant"
+      },
+      {
+        "hazard": "drought",
+        "group": "rural",
+        "primary_ratio": 2.9191685452945793,
+        "primary_ci": "1.23-7.13",
+        "agree_A_of_3": 2,
+        "agree_B_of_4": 3,
+        "verdict": "robust"
+      },
+      {
+        "hazard": "drought",
+        "group": "tribal",
+        "primary_ratio": 1.6726652405551994,
+        "primary_ci": "0.39-4.67",
+        "agree_A_of_3": 0,
+        "agree_B_of_4": 1,
+        "verdict": "primary not significant"
+      }
+    ]
+  },
+  "N3": {
+    "budget": 510,
+    "prevalence": 0.01858470335954253,
+    "comparison_vs_conformal": {
+      "Isolation Forest (experiments)": {
+        "precision": "no difference",
+        "recall": "no difference",
+        "roc_auc": "no difference",
+        "pr_auc": "no difference"
+      },
+      "NB shortfall (experiments)": {
+        "precision": "no difference",
+        "recall": "no difference",
+        "roc_auc": "no difference",
+        "pr_auc": "no difference"
+      },
+      "OLS log-HU (IE)": {
+        "precision": "no difference",
+        "recall": "no difference",
+        "roc_auc": "no difference",
+        "pr_auc": "no difference"
+      },
+      "XGB model E: structure+rural+region (project)": {
+        "precision": "no difference",
+        "recall": "no difference",
+        "roc_auc": "no difference",
+        "pr_auc": "no difference"
+      },
+      "XGB model G: E + neighbour density (project)": {
+        "precision": "no difference",
+        "recall": "no difference",
+        "roc_auc": "no difference",
+        "pr_auc": "no difference"
+      },
+      "XGB shortfall (experiments)": {
+        "precision": "no difference",
+        "recall": "no difference",
+        "roc_auc": "baseline better",
+        "pr_auc": "no difference"
+      },
+      "map/housing ratio (IE)": {
+        "precision": "no difference",
+        "recall": "no difference",
+        "roc_auc": "conformal better",
+        "pr_auc": "no difference"
+      }
+    }
+  },
+  "N5_ranking": {
+    "G_minus_E": {
+      "precision": [
+        0.0,
+        -0.01384470414904723,
+        0.011877848463062803
+      ],
+      "recall": [
+        0.0,
+        -0.026850172319970965,
+        0.036231884057970995
+      ],
+      "roc_auc": [
+        -0.016179377796274985,
+        -0.04348465934517153,
+        0.02383078202906229
+      ],
+      "pr_auc": [
+        0.001977724105375639,
+        -0.006688605832198432,
+        0.013069890192017087
+      ]
+    },
+    "decision": "one sentence only (no recall loss shown)"
+  },
+  "N4": {
+    "class_share_or_per_unit": 3.3022198139184225,
+    "ci": [
+      1.1825500511558138,
+      9.221305845598087
+    ],
+    "p": 0.02260876130002484,
+    "detector": {
+      "roc_auc": 0.5580653728376382,
+      "roc_auc_ci": [
+        0.48474616616911576,
+        0.6461922647530907
+      ],
+      "pr_auc": 0.027226414454437513,
+      "pr_auc_ci": [
+        0.01752366249032816,
+        0.04735634149812385
+      ],
+      "prevalence": 0.018484477124183007
+    },
+    "by_msft_dominance": [
+      {
+        "msft_dom": false,
+        "n": 7938,
+        "ref_gap_rate": 0.01599899218946838,
+        "class_share": 0.29528538756424993
+      },
+      {
+        "msft_dom": true,
+        "n": 1854,
+        "ref_gap_rate": 0.02912621359223301,
+        "class_share": 0.010799562542908142
+      }
+    ],
+    "converged": false,
+    "decision": "rule as written not met (CI excludes 0), but the sign is opposite to 'attribute poverty signals gaps': label-rich tracts have slightly more reference gaps; label poverty is not a gap detector"
+  },
+  "N5_absorption": {
+    "absorbed_share": {
+      "svi": {
+        "E": -2.9007836774021865,
+        "G": -3.0003732215410057
+      },
+      "cvi": {
+        "E": 0.563526490738396,
+        "G": -0.005033425692459929
+      },
+      "rural": {
+        "E": 1.1060437809073969,
+        "G": 1.0359316466875603
+      },
+      "tribal": {
+        "E": -0.19567510486431564,
+        "G": 0.1273188746861507
+      }
+    },
+    "note": "model E uses rural and region as inputs, so its rural absorption is by construction",
+    "IE_E2_for_reference": {
+      "svi": 1.1034199637847624,
+      "cvi": 0.9574723395979279,
+      "rural": 0.7987751002253849,
+      "tribal": 0.6381613259218374
+    }
+  },
+  "N4_sensitivity_excl_eastern_wa": {
+    "class_share_coef": 1.1945949129047668,
+    "ci": [
+      0.16756809721577626,
+      2.2216217285937576
+    ],
+    "p": 0.02262259959905082,
+    "converged": true
+  },
+  "N_family": {
+    "tests": 64,
+    "rejected": 8
+  }
+}

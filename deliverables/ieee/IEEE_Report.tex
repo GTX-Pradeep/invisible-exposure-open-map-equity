@@ -8,6 +8,8 @@
 \usepackage[hidelinks]{hyperref}
 \graphicspath{{../../outputs/figures/}}
 \input{../../paper/numbers.tex}
+\input{../../paper/numbers_merged.tex}
+\input{../../paper/numbers_reference.tex}
 
 \begin{document}
 \title{Invisible Exposure: Reference-Free Conformal Auditing of Open-Map Completeness and Hidden Climate-Hazard Exposure}
@@ -160,6 +162,9 @@ The reference shows rural and tribal gaps 3--4$\times$ more often, yet flags do 
 \includegraphics[width=\columnwidth]{fig5_two_lenses.pdf}
 \caption{Odds ratios of a building gap by group: map-trained flag, reference-anchored flag, reference gap.}\label{fig:lens}
 \end{figure}
+
+\subsection{Imported footprints and reference validation (exploratory)}
+The tracts that lost buildings in the October release had been built mostly from Microsoft footprints (\MgRegMsftPooled{} of their buildings), and imports fail in a second way: in the \MgDomTracts{} tracts where Microsoft supplies at least 90\% of buildings, only \MgDomLabel{} of buildings carry a use class, against \MgOtherLabel{} elsewhere. Simpler expectations, including an Isolation Forest, rank gaps about as well as our model (lift \MgLiftMin{}--\MgLiftMax{}$\times$ under the same flag budget), so the model's value is calibrated ranges and release monitoring. Checked against USA Structures for all \RvN{} tracts, our companion pipeline's peer-normalised shortfall ranks real gaps best (ROC-AUC \RvMeAuc{}), raw sparsity is worse than chance (\RvRawAuc{}), and real gaps are \RvRuralRef{}$\times$ more common in rural and \RvTribalRef{}$\times$ in tribal tracts, more than any score shows (rural: MapEquity \RvRuralMe{}$\times$, ours \RvRuralCf{}$\times$).
 
 \subsection{Original hypotheses and robustness}
 The original template's five hypotheses, tested as worded with Mann--Whitney U: hidden exposure is higher in high-SVI$\times$high-heat tracts (mean \OrigHOne{}; $p_{BH}=\OrigHOneP{}$); rural or tribal high-drought tracts have \emph{lower} single-source dependence; completeness improved slightly faster in high-SVI tracts; hidden exposure did not differ by wildfire quartile. \RobustTextShort{}

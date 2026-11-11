@@ -20,6 +20,15 @@ __pycache__/
 venv/
 .ipynb_checkpoints/
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.log
+
+# Node (deliverables/build/)
+node_modules/
+package-lock.json
 
 # Secrets
 .env
@@ -33,6 +42,7 @@ Thumbs.db
 
 # Generated / heavy
 outputs/figures/fig1_maps.pdf
+outputs/tables/merged/_nfam_*.csv
 paper/*.aux
 paper/*.log
 paper/*.out
@@ -40,3 +50,15 @@ paper/*.bbl
 paper/*.blg
 paper/*.fls
 paper/*.fdb_latexmk
+paper/*.synctex.gz
+deliverables/ieee/*.aux
+deliverables/ieee/*.log
+deliverables/ieee/*.out
+deliverables/ieee/*.bbl
+deliverables/ieee/*.blg
+deliverables/ieee/*.fls
+deliverables/ieee/*.fdb_latexmk
+deliverables/ieee/*.synctex.gz
+
+# small model output needed to regenerate paper numbers
+!modelling/tables/oof_bldg_primary.parquet
