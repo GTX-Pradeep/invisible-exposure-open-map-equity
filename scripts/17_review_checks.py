@@ -1,9 +1,9 @@
 """Reproduce, from this repository alone, the evidence behind the review points of 2026-11-11.
 
-usage: python scripts/15_review_checks.py          (run from the repository root)
+usage: python scripts/17_review_checks.py          (run from the repository root)
 writes outputs/tables/review/review_checks.csv (one row per number, with its source file) and prints it.
 
-  R1  relative RMSE of roads, fire, EMS and buildings, re-estimated here (scripts/16_relative_rmse.py; run it first),
+  R1  relative RMSE of roads, fire, EMS and buildings, re-estimated here (scripts/16_relative_rmse.py; run it first; research-cache values from data/external/companion/layer_predictability.csv for comparison),
       with the companion caches' earlier values as a note
   R2  Microsoft footprints as "ground truth": how circular such a check is, and what the independent reference
       (USA Structures) shows, on all tracts (the original 25-tract sample is not stored in this repository)

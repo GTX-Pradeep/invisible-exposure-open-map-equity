@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 #!/bin/bash
 set -e
 export PYTHONPATH=src
@@ -27,8 +25,9 @@ python scripts/06d_original_hypotheses.py
 python scripts/06c_robustness.py
 python scripts/08_figures.py
 python scripts/10_paper_numbers.py
+python scripts/16_relative_rmse.py    # road/fire/EMS error re-estimated from this repo's data
 python scripts/12_merged_numbers.py
 python scripts/14_reference_validation.py
 python scripts/15_journal_checks.py --part all
+python scripts/17_review_checks.py    # outputs/tables/review/review_checks.csv
 (cd paper && latexmk -pdf -interaction=nonstopmode main.tex)
->>>>>>> 9550b1c9c0451fb1f8f9d3b7b6e530418447aa19
