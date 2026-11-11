@@ -21,9 +21,7 @@ LEAKY_EXACT = {"GEOID", "county", "lat", "lon", "ALAND"}
 
 def assert_no_leakage(cols) -> None:
     bad = [c for c in cols if c in LEAKY_EXACT or c.lower().startswith(AUDIT_ONLY_PREFIXES)
-           or c.startswith(("r2023_", "r2026a_", "r2026b_", "bsh_", "psh_", "b_", "p_"))
-           # merged-project imports (scripts/11a_import_merged.py): comparison data only, never model inputs
-           or c.startswith(("mec_", "alt_", "if_", "exp_", "prj_"))]
+           or c.startswith(("r2023_", "r2026a_", "r2026b_", "bsh_", "psh_", "b_", "p_"))]
     if bad:
         raise ValueError(f"audit/outcome columns refused as model inputs: {bad}")
 
