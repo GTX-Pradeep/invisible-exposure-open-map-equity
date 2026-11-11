@@ -27,4 +27,5 @@ python scripts/08_figures.py
 python scripts/10_paper_numbers.py
 python scripts/12_merged_numbers.py
 python scripts/14_reference_validation.py
+python scripts/15_journal_checks.py --part all
 (cd paper && latexmk -pdf -interaction=nonstopmode main.tex)

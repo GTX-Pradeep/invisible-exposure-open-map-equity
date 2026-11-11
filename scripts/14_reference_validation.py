@@ -19,14 +19,15 @@ OUT_T, OUT_P = "outputs/tables/merged", "paper"
 B, SEED = 1000, 20261111
 d = pd.read_parquet("data/processed/audit_frame.parquet",
                     columns=["GEOID", "region", "county", "r2026a_bldg450", "ref_bldg", "ref_gap_b", "ur_class", "tribal_any",
-                             "bldg_deficit_z", "hu"])
+                             "bldg_deficit_z", "hu", "rural", "tribal"])
 k = pd.read_csv("data/external/companion/mapequity_risk.csv", dtype={"GEOID": str})
 d = d.merge(k, on="GEOID", how="inner", validate="one_to_one")
 d = d[d.ref_bldg.notna() & (d.ref_bldg >= 10)].reset_index(drop=True)
 d["omission"] = (1 - d.r2026a_bldg450 / d.ref_bldg).clip(lower=0)
 d["gap"] = d.ref_gap_b.astype(bool)
-d["rural"] = d.ur_class.eq("Rural")
-d["tribal"] = d.tribal_any.fillna(False).astype(bool)
+# same group definitions as the pre-registered audit: RUCA >= 4, any tribal-area overlap
+d["rural"] = d.rural.eq("rural")
+d["tribal"] = d.tribal.eq("tribal")
 SCORES = {
     "MapEquity building shortfall (NB, peer-normalised)": d.building_shortfall,
     "MapEquity combined risk score": d.risk_score,

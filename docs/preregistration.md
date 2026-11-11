@@ -92,3 +92,7 @@ Recorded after the freeze, with date and reason. None changes a pre-registered e
    reported as *exploratory*, with their own BH family (`outputs/tables/merged/n_family_fdr.csv`), never mixed with H1-H5.
    Two implementation choices were made while running, both recorded in `docs/merge_results.md`: the bootstrap
    p-value is capped at 1, and N4 adds a sensitivity fit without Eastern WA (no reference gaps there).
+6. **2026-11-11: journal-revision checks J1-J6 (not pre-registered).** Added after an internal methodological
+   review (`scripts/15_journal_checks.py`): one-sided conformal flags, seed-ensemble flag stability, region transfer with
+   local recalibration, reference-based hidden exposure, gap-threshold sensitivity, and flexible vs log-linear expectations.
+   R1-R2 and J4 use the pre-registered group definitions (RUCA >= 4; any tribal overlap). Reported as exploratory.

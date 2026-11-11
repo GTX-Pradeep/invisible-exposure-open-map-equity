@@ -28,7 +28,7 @@ const right = [
   B(`2026-09 release dropped ~${m("EOneLost")} buildings in ${m("EOneTracts")} San Antonio tracts (${m("EOneResidents")} people); model flagged ${m("EOneFlagAfter")}`),
   B(`Hidden wildfire exposure ${m("HFiveWildRural")}x higher in rural tracts; drought ${m("HFiveDroughtRural")}x`),
   img("fig6_catchup.png", 3.7),
-  H("Impact"), P("A monitor for every open-map release with a known false-alarm rate, and guidance for fair climate-risk audits: pair tract flags with group-level reference comparisons."),
+  H("Impact"), P("A calibrated monitor for every open-map release (a 50% loss is detected in 96% of tracts), and guidance for fair climate-risk audits: pair tract flags with group-level reference comparisons."),
   H("Links"), P("Code, data, paper: github.com/GTX-Pradeep/invisible-exposure-open-map-equity"),
 ];
 const doc = new Document({ numbering: { config: [{ reference: "b", levels: [{ level: 0, format: LevelFormat.BULLET, text: "•", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 260, hanging: 180 } } } }] }] },

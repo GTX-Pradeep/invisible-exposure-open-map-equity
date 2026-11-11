@@ -113,4 +113,4 @@ Changes made in review:
 - **Restored** the deliverable build scripts (`deliverables/build_*.js`, `notebooks/make_notebook.py`).
 - **New exploratory R1-R2** (`scripts/14_reference_validation.py`): both teams' scores against USA Structures for all tracts. This answers
   the companion experiment plan's E1/E4/E9 without hand labelling and corrects the companion manuscript's claim that rural disparities are
-  model artefacts: real gaps are 2.64x (rural) and 2.71x (tribal) more common, and both scores under-state this.
+  model artefacts: real gaps are 3.72x (rural, RUCA >= 4 as pre-registered; 2.64x with the Census urban/rural class) and 2.71x (tribal) more common, and both scores under-state this.
