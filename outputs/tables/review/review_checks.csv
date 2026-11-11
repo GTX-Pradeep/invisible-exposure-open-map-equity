@@ -1,0 +1,26 @@
+check,item,value,source,note
+R1 relative RMSE,buildings: this repo (best=xgboost),0.483,outputs/tables/review/relative_rmse_repo.csv,earlier companion caches: 0.47-0.49
+R1 relative RMSE,highway: this repo (best=poisson),0.533,outputs/tables/review/relative_rmse_repo.csv,earlier companion caches: 0.52-0.53
+R1 relative RMSE,fire: this repo (best=xgboost),0.919,outputs/tables/review/relative_rmse_repo.csv,earlier companion caches: 0.91-0.92
+R1 relative RMSE,ems: this repo (best=xgboost),0.999,outputs/tables/review/relative_rmse_repo.csv,earlier companion caches: 0.99
+R1 highway transfer,"predicted/observed km, region held out: Maricopa / south-central TX",1.49 / 0.70,outputs/tables/review/highway_loro_repo.csv,the values the paper now quotes
+R2 ground truth,original 25-tract sample,not reproducible from this repo,-,the sampled GEOIDs were never stored here; the all-tract version below needs no sample
+R2 ground truth,median Microsoft share of Overture buildings (all tracts),0.168,deliverables/dataset/tracts_model_table.csv,
+R2 ground truth,Microsoft share <10%: tracts / real gaps vs USA Structures,4201 / 36 (0.86%),deliverables/dataset/invisible_exposure_tract_results.csv,
+R2 ground truth,Microsoft share 10-50%: tracts / real gaps vs USA Structures,1975 / 42 (2.13%),deliverables/dataset/invisible_exposure_tract_results.csv,
+R2 ground truth,Microsoft share 50-90%: tracts / real gaps vs USA Structures,1762 / 49 (2.78%),deliverables/dataset/invisible_exposure_tract_results.csv,in these tracts a Microsoft-based check compares the map largely with itself
+R2 ground truth,Microsoft share >=90%: tracts / real gaps vs USA Structures,1854 / 54 (2.91%),deliverables/dataset/invisible_exposure_tract_results.csv,in these tracts a Microsoft-based check compares the map largely with itself
+R2 ground truth,"real gaps vs USA Structures, all tracts",182 of 9793 (1.86%),deliverables/dataset/invisible_exposure_tract_results.csv,USA Structures is independent of Overture's sources
+R3 H4,change in PR-AUC when provenance is added,-0.0098,outputs/tables/h4_provenance.json,"95% CI [-0.035, 0.0158] includes 0: H4 is null"
+R3 H4,change in ROC-AUC when provenance is added,-0.0097,outputs/tables/h4_provenance.json,"95% CI [-0.024, 0.0038]"
+R3 H4,"reference-gap rate, Microsoft-dominant vs other tracts",0.0291 vs 0.0160,outputs/tables/merged/n4_by_msft_dominance.csv,"descriptive only; it is not a test of H4, so 'consistent with H4' overstates it"
+R4 boundary,buildings not assigned to a tract,"3 of 19,169,789",eda/tables/03_assignment_completeness.csv,share 1.56e-07
+R4 boundary,places not assigned to a tract,"62 of 2,001,137",eda/tables/03_assignment_completeness.csv,share 3.10e-05
+R5 reference gaps,rural vs urban,0.0473 vs 0.0126 (3.76x),deliverables/dataset/invisible_exposure_tract_results.csv,n = 9793 tracts with a reference count
+R5 reference gaps,tribal vs non-tribal,0.0435 vs 0.0161 (2.69x),deliverables/dataset/invisible_exposure_tract_results.csv,n = 9793 tracts with a reference count
+R5 scores,conformal log residual: ROC-AUC / PR-AUC,0.693 / 0.130,modelling/tables/oof_bldg_primary.parquet,gap prevalence 0.0186
+R5 scores,conformal deficit z: ROC-AUC / PR-AUC,0.685 / 0.099,modelling/tables/oof_bldg_primary.parquet,gap prevalence 0.0186
+R5 scores,NB shortfall (log): ROC-AUC / PR-AUC,0.739 / 0.068,modelling/tables/oof_bldg_primary.parquet,gap prevalence 0.0186
+R5 tails,share below the 90% range (flag) / above it,0.0521 / 0.0482,modelling/tables/oof_bldg_primary.parquet,two-sided interval: the 5% one-sided rate is not guaranteed
+R5 tails,share below the range by region (min-max),0.0024-0.0601,modelling/tables/oof_bldg_primary.parquet,
+R5 reproduction,columns reproduced / largest absolute difference,111 / 1.5e-08,eda/tables/03_reproducibility.csv,so: reproduces to floating-point precision

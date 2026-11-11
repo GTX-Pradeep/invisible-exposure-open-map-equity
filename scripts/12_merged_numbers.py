@@ -101,19 +101,13 @@ for it in keep.itertuples():
 rows += ["\\bottomrule\\end{tabular}"]
 open(f"{OUT}/tab_hazard_robust.tex", "w").write("\n".join(rows) + "\n")
 
-# ---- roads and facilities (MapEquityChallenge competition pipeline: NB/Tweedie/XGB on the challenge data)
-import yaml
-MEC = yaml.safe_load(open("config/config.yaml"))["merge"]["mapequity_root"]
-cc = pd.read_csv(f"{MEC}/competition/cache/model_comparison_pooled.csv")
-best = lambda comp, des: cc[(cc.component == comp) & (cc.design == des)].drop(columns=["design", "component", "mean", "region_mean"]).min(axis=1).iloc[0]
-M["MgRrmseHwy"] = f2(best("highway", "spatial")); M["MgRrmseFire"] = f2(best("fire", "spatial")); M["MgRrmseEms"] = f2(best("ems", "spatial"))
-M["MgRrmseBldg"] = f2(best("buildings", "spatial"))
-oc = pd.read_parquet(f"{MEC}/competition/cache/oof_predictions.parquet", columns=["design", "region", "component", "model", "y", "mu"])
-hw = oc[(oc.design == "loro") & (oc.component == "highway") & (oc.model == "tweedie")]
-rat = hw.groupby("region").mu.sum() / hw.groupby("region").y.sum()
+# ---- roads and facilities: re-estimated from this repository's data (scripts/16_relative_rmse.py)
+rr = pd.read_csv("outputs/tables/review/relative_rmse_repo.csv")
+best = lambda comp: rr[(rr.component == comp) & (rr.design == "spatial") & (rr.model != "constant")].relative_rmse.min()
+M["MgRrmseHwy"] = f2(best("highway")); M["MgRrmseFire"] = f2(best("fire")); M["MgRrmseEms"] = f2(best("ems"))
+M["MgRrmseBldg"] = f2(best("buildings"))
+rat = pd.read_csv("outputs/tables/review/highway_loro_repo.csv").set_index("region").predicted_over_observed
 M["MgHwyLoroAz"] = f2(rat["maricopa-az"]); M["MgHwyLoroTx"] = f2(rat["south-central-tx"])
-pv = pd.read_csv(f"{MEC}/academic_research/spatial_and_novelty/data/provenance_beyond_counts_summary.csv")
-M["MgProvMaeMin"] = f"{pv.delta_mae_plus_minus_base.min():+.3f}"; M["MgProvMaeMax"] = f"{pv.delta_mae_plus_minus_base.max():+.3f}"
 
 # ---- data checks (eda/) and model checks (modelling/): reproducibility and limitations
 from pathlib import Path

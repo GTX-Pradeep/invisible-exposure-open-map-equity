@@ -87,6 +87,19 @@ rural differences), which is one more reason the project models are comparison m
 
 * `config/config.yaml`: `merge:` block. `data/external/merged_inputs.csv`: imported per-tract fields.
 * `scripts/11a_import_merged.py`, `scripts/11_merged_exploratory.py` (new); `scripts/run_all.sh`: two lines after `09`.
+* `scripts/11b_import_companion.py` (added 2026-11-11): copies the companion pipeline's summary tables (relative RMSE by layer,
+  highway-length transfer totals by region, provenance-beyond-counts) into `data/external/companion/`, with SHA-256 hashes of the
+  sources in `SOURCES.json`. Before this, `12_merged_numbers.py` read them from `../MapEquityChallenge`, so the paper's
+  `MgRrmse*`, `MgHwyLoro*` and `MgProvMae*` numbers could not be checked from a clone of this repository. All 86 generated
+  numbers were unchanged after the switch; `tests/test_self_contained.py` keeps steps 11 and 12 free of sibling-project paths.
 * `src/coverage_risk/model.py`: `assert_no_leakage` also refuses the imported prefixes (`mec_`, `alt_`, `if_`, `exp_`, `prj_`).
 * `tests/test_core.py`: two tests (11 pass). `docs/preregistration.md`: Deviation 5.
 * Not yet changed: `paper/`, `deliverables/`, `scripts/10_paper_numbers.py` (plan step 5).
+* 2026-11-11, later: `MgRrmse*` and `MgHwyLoro*` are now re-estimated from this repository's own data by
+  `scripts/16_relative_rmse.py` (Poisson/Tweedie GLMs, LightGBM, XGBoost on the five structural inputs, the conformal model's
+  spatial folds and leave-one-region-out). Values: buildings 0.48, highways 0.53, fire 0.92, EMS 1.00; highway transfer 1.49x
+  (Maricopa) and 0.70x (Texas). The companion caches gave 0.47-0.49 / 0.52-0.53 / 0.91-0.92 / 0.99 and 1.43x / 0.70x.
+  Only `MgProvMae*` still comes from the companion copy in `data/external/companion/`.
+* 2026-11-11, evening: `data/external/companion/` and `scripts/11b_import_companion.py` were removed. The only number still
+  taken from it (`MgProvMae*`, the companion pipeline's provenance-beyond-counts check) was dropped from the paper; the same
+  point is made by our own pre-registered H4 test (`outputs/tables/h4_provenance.json`). Only `11a` reads the sibling project.

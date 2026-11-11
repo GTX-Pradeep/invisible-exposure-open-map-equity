@@ -105,7 +105,7 @@ Expand-Archive data\raw\cbp\cbp23co.zip     -DestinationPath data\raw\cbp -Force
 ```powershell
 foreach ($s in "02_build_tract_table","03_expectation_model","04_validation","05_provenance","06_audit","07_catchup",
                "06b_fdr","09_exploratory","11a_import_merged","11_merged_exploratory","06d_original_hypotheses","06c_robustness","08_figures",
-               "10_paper_numbers","12_merged_numbers") {
+               "10_paper_numbers","16_relative_rmse","12_merged_numbers","15_review_checks") {
   .\.venv\Scripts\python.exe "scripts\$s.py"; if ($LASTEXITCODE) { throw "$s failed" }
 }
 ```
