@@ -5,7 +5,7 @@
 [![tests](https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity/actions/workflows/tests.yml/badge.svg)](https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity/actions/workflows/tests.yml)
 ![python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![license](https://img.shields.io/badge/license-MIT-green)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GTX-Pradeep/invisible-exposure-open-map-equity/blob/main/notebooks/Invisible_Exposure.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GTX-Pradeep/invisible-exposure-open-map-equity/blob/main/notebooks/Invisible_Exposure_Colab.ipynb)
 
 Climate-risk tools count exposed buildings by overlaying heat, wildfire and drought layers on open maps. A building that is missing from the map is missing from the risk count. This project estimates, for **9,794 census tracts** in five U.S. hazard regions, how many buildings and points of interest Overture Maps *should* contain. It puts a calibrated 90% range around each estimate, flags tracts that fall below it, converts the gaps into hidden climate-hazard exposure, and audits, under a pre-registered plan, who lives there and whether the gaps close across releases.
 
