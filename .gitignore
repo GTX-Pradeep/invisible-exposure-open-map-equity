@@ -3,6 +3,10 @@ data/raw/*
 data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+# small processed tables the notebook needs (so it runs in Colab without the 30-min ingest)
+!data/processed/tracts_all.parquet
+!data/processed/strata_audit.parquet
+!data/processed/catchup_frame.parquet
 *.parquet
 *.gpkg
 *.gdb/
@@ -62,3 +66,6 @@ deliverables/ieee/*.synctex.gz
 
 # small model output needed to regenerate paper numbers
 !modelling/tables/oof_bldg_primary.parquet
+
+# Course-template PPT is submitted via Drive, not kept in the repo
+deliverables/ADA_CourseProject_*.pptx

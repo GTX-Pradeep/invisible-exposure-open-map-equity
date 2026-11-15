@@ -11,11 +11,23 @@ md("""# Invisible Exposure: reference-free conformal auditing of open-map comple
 **Course project notebook (ADA).** This notebook walks through the whole pipeline: data, expectation model with conformal ranges, validation, the pre-registered equity audit, catch-up across Overture releases, and the release regression we found.
 
 * Repository: https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity
+* **Run it in the browser, nothing to install:** [Open in Google Colab](https://colab.research.google.com/github/GTX-Pradeep/invisible-exposure-open-map-equity/blob/main/notebooks/Invisible_Exposure.ipynb), then *Runtime > Run all*. The first cell downloads the repository and its small data tables (about 1 minute).
 * The heavy data ingestion (Phase 1: streaming Overture releases from the cloud) is done by `scripts/01_count_overture.py` and takes about 30 minutes; set `RUN_INGEST = True` below to rerun it. Everything after it runs here in a few minutes.
 
 **Problem statement.** Estimate, without a perfect reference map and with honest uncertainty, where Overture Maps is incomplete at census-tract level; convert the gaps into hidden heat, wildfire and drought exposure; and test, under a pre-registered plan, whether the gaps fall on socially vulnerable, rural and tribal communities and whether they close across releases.
 
 **Design rule.** SVI, CVI, rurality, tribal and hazard variables never enter the model. They are joined only in the audit.""")
+
+code("""# Colab setup: fetch the repository (code + small processed tables) and the one missing package.
+import os, sys, subprocess
+if "google.colab" in sys.modules:
+    repo = "/content/invisible-exposure-open-map-equity"
+    if not os.path.isdir(repo):
+        subprocess.run(["git", "clone", "--depth", "1",
+                        "https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity.git", repo], check=True)
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "lightgbm", "statsmodels", "pyarrow", "pyyaml"], check=True)
+    os.chdir(repo + "/notebooks")
+print("ready:", os.getcwd())""")
 
 code("""import os, sys, json, warnings
 from pathlib import Path

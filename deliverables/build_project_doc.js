@@ -362,7 +362,7 @@ C.push(table(["Deliverable", "Status", "Location"], [
   ["1. Final one-pager", "Ready", "`deliverables/One_Pager.docx`"],
   ["2. Code (.ipynb)", "Ready", "`notebooks/Invisible_Exposure.ipynb`"],
   ["3. Dataset (link/folder)", "Ready", "`deliverables/dataset/` (links + processed tract tables)"],
-  ["4. Project PPT", "Ready (course ADA template)", "`deliverables/ADA_CourseProject_InvisibleExposure.pptx`"],
+  ["4. Project PPT", "Ready (course-template copy submitted via Drive)", "`deliverables/Invisible_Exposure_Slides.pptx`"],
   ["5. Video (3-5 min)", "To be recorded and uploaded", "Google Drive folder"],
   ["6. IEEE-format report", "Ready", "`deliverables/IEEE_Report.pdf` (+ LaTeX source)"],
   ["Google Drive folder", "Upload; give TAs and Bhaskarjyoti Das sir view access", "Deadline 16/11/2026 EOD"],
