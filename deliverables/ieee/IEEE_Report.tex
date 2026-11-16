@@ -13,16 +13,25 @@
 \input{../../paper/numbers_journal.tex}
 
 \begin{document}
-\title{Invisible Exposure: Finding the Buildings an Open Map Is Missing, Without a Map to Check It Against}
+\title{Invisible Exposure: Reference-Free Conformal Detection of Missing Buildings in Open Maps and the Climate Risk They Hide}
 
-\author{\IEEEauthorblockN{Pradeep T, Prajwal A, Nikhita P Uppar, Sakshi Kiran}
-\IEEEauthorblockA{Department of Computer Science and Engineering (AI \& ML), PES University, Bengaluru, India\\
-ADA Course Project $\cdot$ Code, data and notebook: \url{https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity}}}
+\author{
+\IEEEauthorblockN{Pradeep T}\IEEEauthorblockA{SRN: PES1UG24AM385}
+\and
+\IEEEauthorblockN{Prajwal A}\IEEEauthorblockA{SRN: PES1UG24AM386}
+\and
+\IEEEauthorblockN{Nikhita P Uppar}\IEEEauthorblockA{SRN: PES1UG24AM380}
+\and
+\IEEEauthorblockN{Sakshi Kiran}\IEEEauthorblockA{SRN: PES1UG24AM242}
+\and
+\IEEEauthorblockA{\textit{Advanced Data Analytics (ADA), Department of Computer Science and Engineering (AI \& ML), PES University, Bengaluru, India}\\
+Code, data and notebook: \url{https://github.com/GTX-Pradeep/invisible-exposure-open-map-equity}}
+}
 
 \maketitle
 
 \begin{abstract}
-Climate-risk tools count the people in danger by laying a hazard layer over a map of buildings, so a house the map has missed is a house nobody counts. Missing houses are normally found by comparing the map against a complete reference, but for most places no such reference exists. We therefore take a reference-free approach. Using only neutral facts about a place, namely its housing stock, population, land area and jobs, we predict how many buildings and points of interest each of \NTracts{} census tracts should hold, and we wrap every prediction in a calibrated range using cross-fitted conformalized quantile regression. A tract is flagged when the map falls below its range. Vulnerability, rurality, tribal status and hazard severity are kept out of the model by a guard in the code and are used only afterwards, in an analysis registered before any result was examined. The ranges are well calibrated: \CovBldg{} of held-out tracts fall inside a nominal 90\% range, dropping to \CovLoroBldg{} when a whole region is held out. Flagged tracts are \LiftBldg{}$\times$ more likely than chance to be real gaps against FEMA/ORNL USA Structures, and deleting half of a tract's buildings causes it to be flagged \DelFiftyBldg{} of the time. Across three Overture releases, rural gaps closed \DidRuralPP{} percentage points faster than urban ones. We also identified a release that regressed: from 23 September 2026, Overture dropped about \EOneLost{} buildings from \EOneTracts{} tracts around San Antonio, and our model, which sees no reference at all, flagged \EOneFlagAfter{} of them. Finally, we show why per-tract flags cannot detect a gap that an entire group shares.
+Climate-risk tools estimate exposure by overlaying hazard layers on building maps, so a building that is missing from the map is missing from the exposure count. Finding such gaps normally requires a complete reference map, which rarely exists. We test whether open-map gaps can be detected without one. From neutral structural facts alone (housing stock, population, land area and jobs), we predict how many buildings and points of interest each of \NTracts{} census tracts in five U.S. climate-hazard regions should contain, and we wrap each prediction in a calibrated range using cross-fitted conformalized quantile regression. A tract is flagged when the map falls below its range. Vulnerability, rurality, tribal and hazard variables are blocked from the model in code and enter only a pre-registered audit. The ranges cover \CovBldg{} of held-out tracts at a 90\% target; coverage falls to \CovLoroBldg{} when a whole region is held out and returns to about 90\% after recalibration on 50 local tracts. Against FEMA/ORNL USA Structures, flagged tracts are \LiftBldg{}$\times$ more likely than chance to be real gaps, and deleting half of a tract's buildings triggers a flag \DelFiftyBldg{} of the time. Across three Overture Maps releases (2023--2026), rural gaps closed \DidRuralPP{} percentage points faster than urban ones, and hidden wildfire exposure is \HFiveWildRural{}$\times$ higher per housing unit in rural tracts. We also document a silent release regression: from September 2026, Overture dropped about \EOneLost{} buildings from \EOneTracts{} tracts around San Antonio, and the model, which uses no reference, flagged \EOneFlagAfter{} of them. Finally, we show that per-tract flags cannot detect a modest gap shared by a whole group. All claims are limited to the five study regions.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -30,59 +39,67 @@ open map data, Overture Maps, conformal prediction, data completeness, environme
 \end{IEEEkeywords}
 
 \section{Introduction}
-Estimating how many homes a wildfire threatens usually means overlaying a burn-probability layer on a building map and counting the structures that fall inside. The answer is only as good as the map. A house that is not on the map is not in the count, and the neighbourhood around it appears safer, and less in need of help, than it is.
+A climate-risk estimate is only as good as the map beneath it. Counting the homes a wildfire threatens usually means overlaying a burn-probability layer on a building map. A house that is not on the map is not counted, and its neighbourhood appears safer, and less in need of support, than it is. Open maps are known to be thinner in poorer and more rural places \cite{haklay2010,mashhadi2013,herfort2023}, so the undercount is likely to be largest where the stakes are highest.
 
-This would be a smaller problem if maps were incomplete in a uniform way, but they are not. Open map coverage is reliably thinner in poorer and more rural places \cite{haklay2010,mashhadi2013,herfort2023}, which means the undercount is largest where the stakes are highest.
+Measuring this undercount normally requires a more complete map to compare against, and for most regions and feature types no such map exists. Counting sparse areas does not help either: a tract with few mapped buildings may be farmland, or it may be an unmapped suburb.
 
-Checking a map for missing buildings would seem to require a better map to check it against, and that is the difficulty: for most regions and most feature types, no such reference exists. Simply counting sparse tracts does not help either, because a tract with almost no mapped buildings may be farmland or may be an unmapped suburb.
-
-\textbf{What we do.} We estimate where Overture Maps \cite{overture} is incomplete at census-tract level without consulting any reference while predicting, attach an uncertainty range we can defend, convert the gaps into hidden heat, wildfire and drought exposure, and test, under a plan fixed in advance, whether the gaps fall on vulnerable, rural and tribal communities and whether they are closing.
-
-\textbf{Contributions.} (i) A completeness model that cannot see the variables it is later audited on, with calibrated per-tract ranges and a study of how that calibration survives being moved across space. (ii) Validation against two independent references plus a controlled deletion test. (iii) A three-release audit, which is how we found a silent release regression. (iv) Pre-registered equity and hidden-exposure contrasts with false-discovery-rate control. (v) A measured account of why per-tract flags miss group-wide gaps, which is a limit of the approach rather than of our implementation.
+We therefore estimate where Overture Maps \cite{overture} is incomplete at census-tract level without consulting a reference at prediction time. We attach a calibrated range to every estimate, convert the gaps into hidden heat, wildfire and drought exposure, and test, under a pre-registered plan, whether the gaps fall on vulnerable, rural and tribal communities and whether they are closing. Within our five regions, our contributions are:
+\begin{enumerate}
+\item \textbf{Calibrated, reference-free flags.} A completeness model that cannot see the variables it is later audited on, validated against two independent references and a controlled deletion test, with a study of how its calibration transfers across regions.
+\item \textbf{Release monitoring.} A three-release audit that uncovered an undocumented loss of about \EOneLost{} buildings, which the model detected without any reference.
+\item \textbf{An equity audit with a measured limit.} Pre-registered equity and hidden-exposure contrasts with false-discovery-rate control, and an account of why per-tract flags miss group-wide gaps.
+\end{enumerate}
 
 \section{Related Work}
-Studies of OpenStreetMap completeness have tied coverage to population density and affluence \cite{haklay2010,thebaultspieker2018}, and POI coverage specifically to deprivation \cite{mashhadi2013}. The closest work to ours is Herfort et al. \cite{herfort2023}, who estimate global building completeness by regression, but as point estimates, with no statement of how wrong any single one could be.
+\textbf{Open-map completeness.} OpenStreetMap coverage tracks population density and affluence \cite{haklay2010,thebaultspieker2018}, and POI coverage is lower in deprived areas \cite{mashhadi2013}. Herfort et al.\ \cite{herfort2023} estimated global building completeness by regression, but as point estimates, with no statement of how wrong any single estimate could be.
 
-Conformal prediction supplies that missing statement, with finite-sample coverage under exchangeability \cite{vovk2005,lei2018}, and conformalized quantile regression (CQR) lets the interval width follow the noise \cite{romano2019}. Two warnings from that literature shaped our design: coverage degrades under distribution shift \cite{tibshirani2019}, and random cross-validation flatters spatial models by splitting neighbours across folds \cite{roberts2017}. We therefore test three fold schemes rather than trusting a single one. A third warning comes from elsewhere: a model fit to biased outcomes reproduces the bias \cite{obermeyer2019}. Ours learns from the map it audits, so it is exposed to exactly that, and Section~\ref{sec:lens} measures how much.
+\textbf{Conformal prediction.} Conformal methods give finite-sample coverage under exchangeability \cite{vovk2005,lei2018}, and conformalized quantile regression (CQR) lets the interval width follow the noise \cite{romano2019}. Coverage can degrade under distribution shift \cite{tibshirani2019}.
+
+\textbf{Spatial validation and bias.} Random cross-validation overstates spatial accuracy by splitting neighbours across folds \cite{roberts2017}, so we compare three fold schemes. A model fitted to biased outcomes reproduces the bias \cite{obermeyer2019}; ours learns from the map it audits, and Section~\ref{sec:lens} measures how much of the bias it inherits.
 
 \section{Data}
-\subsection{The Open Map Equity challenge}
-The study area, the map snapshots and the audit strata all come from the \emph{Bias Bounty: Mapping Equity} challenge (the Open Map Equity challenge) run by Humane Intelligence with Zindi \cite{biasbounty}. It publishes map extracts and a curated set of social, demographic and hazard strata for five U.S. regions picked for their climate exposure: Maricopa County AZ, northern CA, eastern OK, south-central TX and eastern WA. Together these hold \NTracts{} census tracts, \NHU{}M housing units and \NPop{}M residents.
-
-Using the challenge regions gave us strata assembled for this exact purpose and keeps our work comparable with other submissions. It also sets the main bound on generalisation: five hazard-selected regions are not a national sample.
-
-Our task differs from the challenge's. The challenge scores gaps against references that it supplies. We predict expected counts with no reference in the loop, attach a calibrated range to every tract, span three releases rather than one, and fix the equity hypotheses before seeing results.
+\subsection{Study area}
+The study area, map snapshots and audit strata come from the \emph{Bias Bounty: Mapping Equity} challenge run by Humane Intelligence with Zindi \cite{biasbounty}. It covers five U.S. regions selected for their climate exposure: Maricopa County AZ, northern CA, eastern OK, south-central TX and eastern WA, with \NTracts{} census tracts, \NHU{}M housing units and \NPop{}M residents. Using these regions gives strata assembled for this purpose; it also bounds generalisation, because five hazard-selected regions are not a national sample. The challenge scores gaps against references it supplies. We instead predict expected counts with no reference in the loop, attach a calibrated range to every tract, span three releases and fix the hypotheses in advance.
 
 \subsection{Map, inputs and references}
-The map under audit is Overture \texttt{2026-08-19.0}: \NBldg{}M buildings and \NPoi{}M places across the five regions. We add \texttt{2026-10-21.0} and an archived copy of \texttt{2023-07-26-alpha.0} to see change over time. Features are assigned to tracts by bounding-box centre, and we count only buildings of at least 450\,sq\,ft so our counts match the reference's.
+The map under audit is Overture \texttt{2026-08-19.0} (\NBldg{}M buildings, \NPoi{}M places). We add \texttt{2026-10-21.0} and an archived copy of \texttt{2023-07-26-alpha.0} to follow change over time. Features are assigned to tracts by bounding-box centre, and only buildings of at least 450\,sq\,ft are counted so that counts match the reference. DuckDB reads the cloud GeoParquet directly and fetches only row groups that intersect the study regions, so no multi-gigabyte release is downloaded in full.
 
-The model is restricted to four kinds of input: housing and population counts; units in structure and year built, from the 2020--2024 ACS \cite{acs}; tract land area; and 2022 LODES jobs by sector \cite{lodes}. No other variable is made available to it.
+\textbf{Model inputs.} Housing and population counts, units in structure and year built from the 2020--2024 ACS \cite{acs}, tract land area, and 2022 LODES jobs by sector \cite{lodes}. No other variable is available to the model.
 
-Two references are held back for validation and never shown to the model: FEMA/ORNL USA Structures \cite{usastructures} for buildings, and ZIP and County Business Patterns \cite{cbp} for establishments. The audit strata (SVI 2022 \cite{flanagan2011}, CVI, RUCA rurality, tribal-land overlap, EPHT heat days, USFS burn probability \cite{wrc} and USDM drought) are joined only after the model has finished predicting.
+\textbf{References (validation only).} FEMA/ORNL USA Structures \cite{usastructures} for buildings and ZIP/County Business Patterns \cite{cbp} for establishments. \RvN{} of the \NTracts{} tracts carry a usable reference count.
 
-A practical note on scale: one Overture release is several gigabytes and we needed three. DuckDB with its spatial and httpfs extensions reads the cloud GeoParquet directly, fetching only row groups whose bounding boxes intersect our regions, so no release is ever downloaded whole.
+\textbf{Audit strata.} SVI 2022 \cite{flanagan2011}, CVI, RUCA rurality, tribal-land overlap, EPHT heat days, USFS burn probability \cite{wrc} and USDM drought, joined only after prediction.
 
-\section{Method}
+\section{Methods}
 \subsection{Expected counts}
-For tract $i$ with mapped count $c_i$ we model $y_i=\log(1+c_i)$ on structural covariates $x_i$. Three LightGBM \cite{ke2017} quantile regressions estimate $\hat q_\tau(x)$ at $\tau\in\{0.05,0.5,0.95\}$. A guard, \texttt{assert\_no\_leakage}, rejects any audit, reference or outcome column at fit time, so the exclusion is enforced by the pipeline rather than left to discipline.
-
-Predictions are cross-fitted over $K=10$ folds built from whole \SI{50}{km} spatial blocks. The blocks matter: with random folds, a tract's own deficit, which is shared with its neighbours, would help set the expectation against which it is judged.
+For tract $i$ with mapped count $c_i$, we model
+\begin{equation}
+y_i=\log(1+c_i)
+\end{equation}
+on structural covariates $x_i$ (66 features). Three LightGBM \cite{ke2017} quantile regressions estimate $\hat q_\tau(x)$ for $\tau\in\{0.05,0.5,0.95\}$. A guard, \texttt{assert\_no\_leakage}, rejects any audit, reference or outcome column at fit time. Predictions are cross-fitted over $K=10$ folds of whole \SI{50}{km} spatial blocks, so a tract's own deficit, which it shares with its neighbours, cannot lower the expectation it is judged against.
 
 \subsection{Calibrated ranges}
-Out-of-fold CQR scores $s_i=\max\{\hat q_{0.05}(x_i)-y_i,\,y_i-\hat q_{0.95}(x_i)\}$ record how badly each interval missed. For fold $k$, the correction $\hat Q_k$ is the $\lceil 0.9(m+1)\rceil$-th smallest of the $m$ scores from the other folds, giving $[\hat q_{0.05}-\hat Q_k,\ \hat q_{0.95}+\hat Q_k]$. A Mondrian variant computes $\hat Q_k$ within each region. A tract is flagged when $y_i$ sits below the lower bound; its shortfall is the conservative $\max(\text{lower}-c_i,0)$.
+Out-of-fold CQR scores record how badly each interval missed:
+\begin{equation}
+s_i=\max\{\hat q_{0.05}(x_i)-y_i,\; y_i-\hat q_{0.95}(x_i)\}.
+\end{equation}
+For fold $k$, the correction $\hat Q_k$ is the $\lceil 0.9(m+1)\rceil$-th smallest of the $m$ scores from the other folds, and the range is
+\begin{equation}
+\big[\hat q_{0.05}(x_i)-\hat Q_k,\ \hat q_{0.95}(x_i)+\hat Q_k\big].
+\end{equation}
+A Mondrian variant computes $\hat Q_k$ within each region. A tract is flagged when $y_i$ lies below the lower bound, and its conservative shortfall is $\max(\text{lower}-c_i,0)$. Cross-fitted CQR is a CV+-type procedure, so its worst-case guarantee is $1-2\alpha$, not exactly $1-\alpha$, and it gives no guarantee under transfer to a new region. The flag rate is calibrated against the map's own distribution; it is not a known false-alarm rate against the truth.
 
-One caveat should be stated plainly: cross-fitted CQR is a CV+-type procedure, so the worst-case guarantee is $1-2\alpha$, not exactly $1-\alpha$. What we measure is close to nominal, but the theory does not promise that.
+\subsection{Validation}
+We compare random, spatial-block and leave-one-region-out folds; score flags against reference gaps (Overture below 80\% of USA Structures); and run a deletion test that removes a known share of a tract's features.
 
-\subsection{Validation and pre-registration}
-We compare random, spatial-block and leave-one-region-out folds; score flags against reference gaps (Overture below 80\% of USA Structures); and run a deletion test, removing a known share of a tract's features to see whether the model notices.
-
-Hypotheses were frozen before any model output was joined to any stratum. H1 and H2 test flag rates by SVI, CVI, rurality and tribal status, using logistic regression with region fixed effects, county-clustered standard errors and a cluster bootstrap over 324 counties. H3 tests catch-up from 2023 to 2026. H4 tests whether data-provenance features help. H5 tests hidden exposure per 1,000 housing units in top-tercile hazard tracts. Benjamini--Hochberg control \cite{bh1995} is applied across all \NFdrFamily{} tests. Everything outside that family is labelled exploratory.
+\subsection{Pre-registered audit}
+Hypotheses were frozen before any model output was joined to any stratum. H1 and H2 test flag rates by SVI, CVI, rurality (RUCA $\geq 4$) and tribal status, using logistic regression with region fixed effects, county-clustered standard errors and a cluster bootstrap over 324 counties. H3 tests catch-up from 2023 to 2026, H4 tests provenance features, and H5 tests hidden exposure per 1,000 housing units in top-tercile hazard tracts. Benjamini--Hochberg control \cite{bh1995} is applied across all \NFdrFamily{} tests; all other analyses are labelled exploratory.
 
 \section{Results}
-\subsection{Calibration}
-Overture and USA Structures agree closely (log $r=\RefCorr{}$, median ratio 1.05), and only \RefGapShare{} of tracts hold under 80\% of the reference: \RefGapRural{} rural and \RefGapTribal{} tribal, against \RefGapUrban{} urban and \RefGapNonTribal{} non-tribal. Spatial cross-fitting reaches $R^2=\RTwoBldg{}$ for buildings and \RTwoPoi{} for POIs, at \CovBldg{} coverage on both layers.
+\subsection{The ranges are calibrated, and transfer can be repaired}
+Overture agrees closely with USA Structures (log $r=\RefCorr{}$, median ratio \RefMedRatio{}); only \RefGapShare{} of tracts hold less than 80\% of the reference (rural \RefGapRural{}, tribal \RefGapTribal{}; urban \RefGapUrban{}, non-tribal \RefGapNonTribal{}). Spatial cross-fitting reaches $R^2=\RTwoBldg{}$ for buildings and \RTwoPoi{} for POIs, with \CovBldg{} coverage on both layers.
 
-Where the calibration is computed matters more than how folds are drawn (Table~\ref{tab:cv}, Fig.~\ref{fig:cov}). Under one global calibration, per-region coverage spreads \CovSpatRegMinBldg{}--\CovSpatRegMaxBldg{}; calibrating inside each region tightens it to \CovMondRegMinBldg{}--\CovMondRegMaxBldg{}. Holding out a whole region is the hard case and coverage drops to \CovLoroBldg{}, as low as \CovLoroMinBldg{} for one region. That is a genuine limit on transfer. It is also fixable: recalibrating on 50 tracts from the held-out region, which needs only the map's own counts and no reference, restores \JtFiftyMin{}--\JtFiftyMax{}.
+Where the calibration is computed matters more than how the folds are drawn (Table~\ref{tab:cv}, Fig.~\ref{fig:cov}). Under one global calibration, per-region coverage spans \CovSpatRegMinBldg{}--\CovSpatRegMaxBldg{}; calibrating within each region narrows it to \CovMondRegMinBldg{}--\CovMondRegMaxBldg{}. Holding out a whole region lowers coverage to \CovLoroBldg{} (\CovLoroMinBldg{} in one region). Recalibrating on 50 tracts of the held-out region, which needs only the map's own counts, restores \JtFiftyMin{}--\JtFiftyMax{}.
 
 \begin{table}[t]\centering\footnotesize
 \caption{Calibration and fit by fold scheme. Coverage is of nominal 90\% ranges; $R^2$ is on the log scale; the last columns are per-region coverage extremes.}\label{tab:cv}
@@ -91,13 +108,11 @@ Where the calibration is computed matters more than how folds are drawn (Table~\
 
 \begin{figure}[t]\centering
 \includegraphics[width=\columnwidth]{fig3_coverage_schemes.pdf}
-\caption{Coverage of nominal 90\% ranges by fold scheme and calibration. Dots are regions, diamonds the overall value.}\label{fig:cov}
+\caption{Coverage of nominal 90\% ranges by fold scheme and calibration. Dots are regions; diamonds are the overall value.}\label{fig:cov}
 \end{figure}
 
-\subsection{Do the flags find real gaps?}
-Against USA Structures the building flags reach precision \PrecBldg{} and recall \RecBldg{} at \PrevBldg{} prevalence, a lift of \LiftBldg{}$\times$, with PR-AUC \PRAUCBldg{} against \PRAUCOlsBldg{} for an OLS baseline and \PRAUCRatioBldg{} for a map-to-housing ratio (Table~\ref{tab:skill}).
-
-A precision of \PrecBldg{} appears poor until it is read against the prevalence at which it is measured. The deletion test is the cleaner evidence, because there the gap is one we created ourselves: removing 30\% of a tract's buildings gets it flagged \DelThirtyBldg{} of the time, and removing 50\% gets it flagged \DelFiftyBldg{} (Fig.~\ref{fig:del}). The POI layer is less sensitive, at \DelThirtyPoi{} and \DelFiftyPoi{}.
+\subsection{The flags find real gaps}
+Building flags reach precision \PrecBldg{} and recall \RecBldg{} at \PrevBldg{} prevalence, a lift of \LiftBldg{}$\times$, with PR-AUC \PRAUCBldg{} against \PRAUCOlsBldg{} for an OLS baseline and \PRAUCRatioBldg{} for a map-to-housing ratio (Table~\ref{tab:skill}). The precision is low in absolute terms because real gaps are rare. The deletion test gives cleaner evidence, because the gap is known: removing 30\% of a tract's buildings triggers a flag \DelThirtyBldg{} of the time, and removing 50\% triggers one \DelFiftyBldg{} of the time (Fig.~\ref{fig:del}). The POI layer is less sensitive (\DelThirtyPoi{} and \DelFiftyPoi{}).
 
 \begin{table}[t]\centering\footnotesize
 \caption{Flag skill against the independent references.}\label{tab:skill}
@@ -109,14 +124,14 @@ A precision of \PrecBldg{} appears poor until it is read against the prevalence 
 \caption{Deletion test: share of tracts flagged after a known share of their features is removed.}\label{fig:del}
 \end{figure}
 
-\subsection{Who the gaps fall on, and the exposure they hide}
-Table~\ref{tab:conf} carries all \NFdrFamily{} pre-registered contrasts, and the headline for buildings is null: flag rates do not differ by SVI, CVI, rurality or tribal status. POI flags do differ, but in the opposite direction to expectation: they are less common in high-SVI tracts (\PoiSviHi{} vs \PoiSviLo{}, aOR \PoiSviAor{}). Provenance features did not help building detection at all ($\Delta$PR-AUC \HFourDprBldg{}), so H4 is a clean negative, though they gave the POI layer a small lift ($\Delta$ROC-AUC \HFourDaucPoi{}).
+\subsection{Equity contrasts and hidden exposure}
+Table~\ref{tab:conf} lists all \NFdrFamily{} pre-registered contrasts. For buildings, flag rates do not differ by SVI, CVI, rurality or tribal status. POI flags differ in the opposite direction to expectation: they are less common in high-SVI tracts (\PoiSviHi{} vs.\ \PoiSviLo{}; aOR \PoiSviAor{}). Provenance features do not improve building-gap detection ($\Delta$PR-AUC \HFourDprBldg{}), so H4 is not supported.
 
-Hidden exposure is where the signal is sharp (Fig.~\ref{fig:he}). Per 1,000 housing units, missing structures in high-wildfire tracts are \HFiveWildRural{}$\times$ more common in rural tracts than urban (95\% CI \HFiveWildRuralCI{}), and \HFiveDroughtRural{}$\times$ in drought tracts (\HFiveDroughtRuralCI{}). Summed over the five regions, the gaps hide roughly \HEAll{} structures.
+Hidden exposure gives the clearest signal (Fig.~\ref{fig:he}). Per 1,000 housing units, missing structures in high-wildfire tracts are \HFiveWildRural{}$\times$ more common in rural than urban tracts (95\% CI \HFiveWildRuralCI{}), and \HFiveDroughtRural{}$\times$ in high-drought tracts (\HFiveDroughtRuralCI{}). Summed over the five regions, the gaps hide roughly \HEAll{} structures.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\columnwidth]{fig7_hidden_exposure.pdf}
-\caption{Hidden-exposure rate ratios (H5). Diamonds mark contrasts surviving the Benjamini--Hochberg correction.}\label{fig:he}
+\caption{Hidden-exposure rate ratios (H5). Diamonds mark contrasts that survive the Benjamini--Hochberg correction.}\label{fig:he}
 \end{figure}
 
 \begin{table*}[t]\centering\footnotesize
@@ -124,16 +139,14 @@ Hidden exposure is where the signal is sharp (Fig.~\ref{fig:he}). Per 1,000 hous
 \input{../../paper/tab_confirmatory.tex}
 \end{table*}
 
-\subsection{Catch-up, and a release that went backwards}
-Between 2023 and 2026 the share of tracts below 80\% of the reference fell from \GapShareA{} to \GapShareB{}; among rural tracts it fell from \GapRuralA{} to 4.2\%. Rural tracts improved \DidRuralPP{} percentage points more than urban ones ($p_{BH}=\DidRuralP{}$), and tribal tracts \DidTribalPP{} points more ($p_{BH}=\DidTribalP{}$), while the OSM share of buildings rose from \OsmShareA{} to 51\% (Fig.~\ref{fig:catch}). The map has been catching up fastest where it was furthest behind.
+\subsection{Catch-up across releases, and a silent regression}
+From 2023 to 2026, the share of tracts below 80\% of the reference fell from \GapShareA{} to \GapShareB{}, and among rural tracts from \GapRuralA{} to 4.2\%. Rural tracts improved \DidRuralPP{} percentage points more than urban ones ($p_{BH}=\DidRuralP{}$), and tribal tracts \DidTribalPP{} points more ($p_{BH}=\DidTribalP{}$), while the OpenStreetMap share of buildings rose from \OsmShareA{} to 51\% (Fig.~\ref{fig:catch}). The map has caught up fastest where it was furthest behind.
 
-There is one exception. From release \texttt{2026-09-23.0}, Overture dropped about \EOneLost{} buildings, mostly Microsoft-derived footprints, from \EOneTracts{} tracts. Of these, \EOneBexar{} are in Bexar County, Texas; they house \EOneResidents{} people, and \EOneSviShare{} of them are high-SVI tracts, against \EOneSviAll{} across the study area (Fig.~\ref{fig:bexar}). Nothing in the release notes mentions it.
-
-Run on the October release with no reference, our model flagged \EOneFlagAfter{} of the affected tracts, up from \EOneFlagBefore{} before the drop and against \EOneFlagOther{} elsewhere in the region, with recall \EOneRecall{}. This is the application we would defend hardest: not ranking which tracts are worst, but noticing when a release quietly loses a city.
+There is one exception. From release \texttt{2026-09-23.0}, Overture dropped about \EOneLost{} mostly Microsoft-derived footprints from \EOneTracts{} tracts, \EOneBexar{} of them in Bexar County, Texas. These tracts house \EOneResidents{} people, and \EOneSviShare{} of them are high-SVI tracts, against \EOneSviAll{} study-wide (Fig.~\ref{fig:bexar}). The release notes do not mention the loss. Re-run on the October release with no reference, the model flagged \EOneFlagAfter{} of the affected tracts, up from \EOneFlagBefore{} before the drop and against \EOneFlagOther{} elsewhere in the region (recall \EOneRecall{}).
 
 \begin{figure*}[t]\centering
 \includegraphics[width=0.9\textwidth]{fig6_catchup.pdf}
-\caption{Share of tracts below 80\% of USA Structures by group and snapshot. The 2026-10 uptick is the Bexar County regression, not real-world change.}\label{fig:catch}
+\caption{Share of tracts below 80\% of USA Structures by group and snapshot. The 2026-10 rise is the Bexar County regression, not real-world change.}\label{fig:catch}
 \end{figure*}
 
 \begin{figure}[t]\centering
@@ -141,48 +154,49 @@ Run on the October release with no reference, our model flagged \EOneFlagAfter{}
 \caption{Buildings lost between the 2026-08 and 2026-10 releases, Bexar County, Texas.}\label{fig:bexar}
 \end{figure}
 
-\subsection{Why per-tract flags miss group-wide gaps}\label{sec:lens}
-This is our least flattering result, and the one we are most confident in. Measured against the reference, rural tracts have gaps far more often than urban ones: adjusted odds ratio 3.86 [2.40, 6.22]. Our flag puts it at 1.06 [0.72, 1.57]. Even a reference-anchored flag gives 0.83 [0.48, 1.44]. Tribal versus non-tribal tells the same story: 4.17 [1.89, 9.23] by reference, 1.26 [0.38, 4.20] by our flag (Fig.~\ref{fig:lens}). Two mechanisms explain it, and neither is a bug.
+\subsection{Per-tract flags miss group-wide gaps}\label{sec:lens}
+Measured against the reference, rural tracts have gaps far more often than urban ones (adjusted odds ratio 3.86 [2.40, 6.22]). The model's flag gives 1.06 [0.72, 1.57], and even a reference-anchored flag gives 0.83 [0.48, 1.44]. Tribal tracts show the same pattern: 4.17 [1.89, 9.23] by the reference and 1.26 [0.38, 4.20] by the flag (Fig.~\ref{fig:lens}). Two mechanisms explain this.
 
-\emph{Absorption.} The expectation is trained on the map, so it learns the rural shortfall as normal. Relative to the reference, observed rural completeness is lower by $-0.031$ [$-0.053$, $-0.009$] log points, and the map-trained expectation is already lower by $-0.025$ [$-0.053$, $+0.004$], reproducing 80\% of the rural shortfall and 64\% of the tribal one.
+\textbf{Absorption.} The expectation is trained on the map, so it learns the rural shortfall as normal. Relative to the reference, observed rural completeness is lower by $-0.031$ [$-0.053$, $-0.009$] log points, and the map-trained expectation is already lower by $-0.025$, reproducing 80\% of the rural shortfall and 64\% of the tribal one.
 
-\emph{Resolution.} Even when anchored on the reference, the tract-level residual SD is 0.21 log points (0.19 for the map-trained model), against 0.22 for a 20\% gap. The noise is therefore of the same magnitude as the effect we are trying to detect.
-
-Per-tract flags are therefore triage signals, and equity claims require reference comparisons aggregated by group.
+\textbf{Resolution.} Even when anchored on the reference, the tract-level residual SD is 0.21 log points (0.19 map-trained), against 0.22 for a 20\% gap, so the noise is as large as the effect.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\columnwidth]{fig5_two_lenses.pdf}
-\caption{Odds ratios of a building gap by group under three lenses: the map-trained flag, a reference-anchored flag, and the reference gap itself.}\label{fig:lens}
+\caption{Odds ratios of a building gap by group under three lenses: the map-trained flag, a reference-anchored flag and the reference gap itself.}\label{fig:lens}
 \end{figure}
 
-\subsection{Baselines, imports and robustness (exploratory)}
-We checked whether the conformal machinery is needed for ranking. It is not. Under an identical budget of \MgBudget{} flags, eight methods, including a plain Isolation Forest on log counts, all land at \MgLiftMin{}$\times$--\MgLiftMax{}$\times$ lift against 1.0$\times$ for random flags, and none differs from ours in precision, recall or PR-AUC under a paired county-cluster bootstrap (Table~\ref{tab:baselines}). Ranking is not where this method adds value; calibrated ranges and release monitoring are.
+\subsection{Baselines, imported footprints and robustness (exploratory)}
+Under an identical budget of \MgBudget{} flags, eight methods, including an Isolation Forest on log counts, reach \MgLiftMin{}$\times$--\MgLiftMax{}$\times$ lift against 1.0$\times$ for random flags, and none differs from the conformal model in precision, recall or PR-AUC under a paired county-cluster bootstrap (Table~\ref{tab:baselines}). The model's contribution is therefore calibrated ranges and release monitoring, not better ranking.
 
 \begin{table}[t]\centering\footnotesize
 \caption{Exploratory: eight methods under one budget of \MgBudget{} flags, scored against the USA Structures gap (prevalence \PrevBldg{}). None differs significantly from the conformal model.}\label{tab:baselines}
 \resizebox{\columnwidth}{!}{\input{../../paper/tab_baselines.tex}}
 \end{table}
 
-Machine-learned imports fail twice. They can be withdrawn, as Bexar County showed, where \MgRegMsftPooled{} of the lost buildings were Microsoft-derived. And where they stay, they arrive bare: in the \MgDomTracts{} tracts that are at least 90\% Microsoft, only \MgDomLabel{} of buildings carry a use class, against \MgOtherLabel{} elsewhere. A map can be complete in outline and still unable to tell a school from a shed. Consistently, reference gaps are more common in Microsoft-dominated tracts (2.8\%) than OSM-dominated ones (1.3\%).
+Machine-learned imports fail in two ways. They can be withdrawn: \MgRegMsftPooled{} of the buildings lost in Bexar County were Microsoft-derived. Where they remain, they lack attributes: in the \MgDomTracts{} tracts that are at least 90\% Microsoft footprints, only \MgDomLabel{} of buildings carry a use class, against \MgOtherLabel{} elsewhere.
 
-Robustness: across 7 specifications (primary; no housing-type covariates; negative-binomial GLM; 80\% and 95\% ranges; within-region calibration; excluding tracts under 50 housing units), 53 of 56 flag contrasts keep their significance status. The lower POI flag rate in high-SVI tracts holds in every one (RD $-0.040$ to $-0.067$). The instructive exception: dropping units-in-structure covariates makes building flags significantly more common in high-SVI tracts (aOR 2.91). This is absorption caught in the act, since mobile-home and multi-unit shares correlate with SVI and, in the primary model, explain away part of the high-SVI shortfall.
+Across 7 specifications, 53 of 56 flag contrasts keep their significance status, and across \MgNVariants{} model settings coverage stays at \MgCovMin{}--\MgCovMax{}. Individual flags are less stable: across ten seeds, flag-set overlap is \JsPairMin{}--\JsPairMax{}, and the \JsStable{} tracts flagged under at least nine seeds are more precise (lift \JsStableLift{}$\times$). A one-sided 5\% lower bound flags \JoFlagRate{} of tracts and selects nearly the same set (Jaccard \JoJaccard{}).
 
-Across \MgNVariants{} model settings coverage held at \MgCovMin{}--\MgCovMax{}, so the guarantee is robust. Individual flags are not: changing only the random seed leaves a flag-set overlap of \MgSeedOverlap{}, and across ten seeds overlap runs \JsPairMin{}--\JsPairMax{}. The \JsStable{} tracts flagged under at least nine seeds are notably more precise (lift \JsStableLift{}$\times$), which argues for reporting a seed-stable core rather than one run's output.
+\section{Discussion and Limitations}
+\textbf{Calibration, not ranking.} Simple baselines rank gaps about as well as our model. Its value lies in a calibrated range for every tract, which supports monitoring a release against the map's own history.
 
-We report two further checks. A one-sided lower bound at 5\%, arguably the right tool for a one-directional flag, flags \JoFlagRate{} of tracts and picks nearly the same set (Jaccard \JoJaccard{}). And measured directly against the reference rather than through the model, missing structures in high-wildfire rural tracts are \JhWildfireRural{}$\times$ more common, far above the model-based \HFiveWildRural{}$\times$: absorption once more.
+\textbf{Monitoring is the strongest use.} The San Antonio loss was undocumented, concentrated in high-vulnerability tracts, and visible to a model that uses no reference.
 
-\section{Deviations From the Plan}
-We record four deviations. We targeted five whole states and Overture \texttt{2025-09-24.0}; Overture deletes releases after about 60 days and the strata are distributed for the challenge regions, so we used those regions and the three snapshots we could obtain. The Phase~1 gate found only \RefGapShare{} of tracts below 80\% of reference, a thinner signal than assumed, so we report both layers rather than buildings alone. LODES jobs were added because ACS alone explained only $R^2=0.42$ of POI variance. And rurality is RUCA $\geq 4$ throughout, as pre-registered, not the Census urban/rural class; under the Census class the rural reference excess is 2.64$\times$ rather than \RvRuralRef{}$\times$.
+\textbf{Equity needs group-level references.} Our results suggest that a map-trained expectation absorbs most of a shortfall shared by a group. Measured directly against the reference, missing structures in high-wildfire rural tracts are \JhWildfireRural{}$\times$ more common, well above the model-based \HFiveWildRural{}$\times$.
 
-\section{Limitations}
-\emph{From the data:} both building sources are imagery-derived, so a shared omission would make us understate gaps; the POI reference counts employer establishments allocated by land area, so POI validation is approximate; hazards are tract averages, so hidden exposure assumes missing structures share their tract's hazard; the 2023 snapshot is a third-party archived alpha; \RvN{} of the \NTracts{} tracts carry a usable reference count, one having none and five fewer than ten reference buildings; and five hazard-selected regions are not a national sample.
+\textbf{Deviations.} We planned five whole states and Overture \texttt{2025-09-24.0}, but Overture deletes releases after about 60 days and the strata cover the challenge regions. We report both layers because only \RefGapShare{} of tracts fell below 80\% of the reference. LODES jobs were added because ACS alone explained only $R^2=0.42$ of POI variance. Rurality is RUCA $\geq 4$ throughout, as pre-registered (under the Census class the rural reference excess is 2.64$\times$ rather than \RvRuralRef{}$\times$).
 
-\emph{From our own checks:} single-tract flags move with the random seed (overlap \MgSeedOverlap{}), so they are triage, not verdicts; calibration is uneven by tract size, with \MgFlagSmallDecile{} of the smallest expected-size decile flagged against \MgFlagLargeDecile{} of the largest, so the 90\% guarantee holds on average rather than everywhere; USA Structures imagery dates from \MgImgFirst{}--\MgImgLast{}, so recent construction or demolition blurs the comparison; ACS margins of error are ignored, which matters most for the \MgGqTracts{} tracts that are mostly group quarters; residuals stay spatially autocorrelated within regions (Moran's $I$ \MgMoranMin{}--\MgMoranMax{}); and eastern Washington is almost never flagged (\MgWaFlag{}).
+\textbf{Limitations.}
+\begin{itemize}
+\item \textbf{Scope.} Five hazard-selected regions and three releases; we make no national claims.
+\item \textbf{References.} Both building sources are imagery-derived, so a shared omission would make us understate gaps. The POI reference is allocated by land area, and USA Structures imagery dates from \MgImgFirst{}--\MgImgLast{}.
+\item \textbf{Hazard and inputs.} Hazards are tract averages, and ACS margins of error are ignored (\MgGqTracts{} tracts are mostly group quarters).
+\item \textbf{Flags.} Single-tract flags move with the random seed (overlap \MgSeedOverlap{}), and calibration is uneven by tract size (\MgFlagSmallDecile{} of the smallest decile flagged against \MgFlagLargeDecile{} of the largest), so the 90\% guarantee holds on average rather than everywhere.
+\end{itemize}
 
 \section{Conclusion}
-A reference-free conformal model can audit an open map with calibrated uncertainty, catch real losses between releases, and tie the gaps it finds to hidden climate exposure. Its flag rate is calibrated against the map's own distribution, which is not the same as a known false-alarm rate against the truth, and a 50\% loss is caught in \DelFiftyBldg{} of tracts.
-
-We offer two recommendations to anyone building on this work. First, pair per-tract flags with group-level reference comparisons whenever the question is one of equity, because a gap an entire group shares is nearly invisible to a per-tract test. Second, the monitoring case is the strong one: open-map releases change every few weeks and nobody is watching them for losses. Next steps are national release-regression monitoring, checking whether the San Antonio buildings return, and group-level audits for roads and emergency facilities.
+A reference-free conformal model can audit an open map with calibrated uncertainty, detect real losses between releases, and link the gaps it finds to hidden climate exposure. In our five regions, rural gaps closed faster than urban ones, and a silent loss of about \EOneLost{} buildings was detected without any reference. Per-tract flags should be paired with group-level reference comparisons whenever the question concerns equity. Future work includes national release monitoring and group-level audits for roads and emergency facilities.
 
 \bibliographystyle{IEEEtran}
 \bibliography{../../paper/refs}
